@@ -98,6 +98,9 @@ namespace CulterSystem.CommonSystem.CharacterSytem
             //EffectList 업데이트
             m_EffectList.UpdateEffect();
             OnUpdateEffect(m_EffectList.GetEffect_All());
+
+            //캐릭터 자체 업데이트
+            OnUpdate();
         }
 
         //Character Event
@@ -105,6 +108,12 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         /// 초기화될 때 호출됩니다.
         /// </summary>
         protected virtual void OnInit()
+        {
+        }
+        /// <summary>
+        /// 업데이트될 때 호출됩니다.
+        /// </summary>
+        protected virtual void OnUpdate()
         {
         }
         /// <summary>
@@ -188,12 +197,26 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         {
             if (0 <= layerIndex && layerIndex < m_CurrentAction.Length)
             {
-                m_CurrentAction[layerIndex]?.EndAction();
+                if (m_CurrentAction[layerIndex] != action)
+                {
+                    m_CurrentAction[layerIndex]?.EndAction();
 
-                m_CurrentAction[layerIndex] = action;
-                m_CurrentAction[layerIndex].StartAction(this, m_CharacterAni[layerIndex]);
-
+                    m_CurrentAction[layerIndex] = action;
+                    m_CurrentAction[layerIndex].StartAction(this, m_CharacterAni[layerIndex]);
+                }
             }
+        }
+        /// <summary>
+        /// 해당 레이어의 액션을 가져옵니다.
+        /// </summary>
+        /// <param name="layerIndex">레이어</param>
+        /// <returns></returns>
+        protected CharacterAction GetAction(int layerIndex)
+        {
+            if (0 <= layerIndex && layerIndex < m_CurrentAction.Length)
+                return m_CurrentAction[layerIndex];
+            else
+                return null;
         }
         #endregion
     }

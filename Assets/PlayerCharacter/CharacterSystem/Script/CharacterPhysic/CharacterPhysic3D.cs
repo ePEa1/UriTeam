@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using CulterSystem.BaseSystem.DataSystem;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,13 +16,12 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         [SerializeField, TabGroup("Physics"), LabelText("기본 머테리얼")] private PhysicMaterial m_DefaultPhysicsMaterial;
         [SerializeField, TabGroup("Physics"), LabelText("이동시 머테리얼")] private PhysicMaterial m_MovePhysicsMaterial;
 
-        [SerializeField, TabGroup("Option"), LabelText("최대 이동속도")] private float m_MaxMoveSpeed;
+        [SerializeField, TabGroup("Option"), LabelText("최대 이동속도")] private float m_MoveSpeed;
         [SerializeField, TabGroup("Option"), LabelText("0->최대이속 시간")] private float m_MoveMaxSec;
         [SerializeField, TabGroup("Option"), LabelText("최대이속->0 시간")] private float m_MoveMinSec;
         [SerializeField, TabGroup("Option"), LabelText("점프 세기")] private float m_JumpPower;
         [SerializeField, TabGroup("Option"), LabelText("점프시 이동시간 배율")] private float m_JumpMoveChangeFactor;
         #endregion
-
         #region Get,Set
         public FlyStateEnum FlyState
         {
@@ -32,6 +32,22 @@ namespace CulterSystem.CommonSystem.CharacterSytem
                 else
                     return m_FlyState;
             }
+        }
+        /// <summary>
+        /// 이동속도
+        /// </summary>
+        public DataValue<float> MoveSpeed
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 점프 세기
+        /// </summary>
+        public DataValue<float> JumpPower
+        {
+            get;
+            private set;
         }
 
         //Action
@@ -56,6 +72,8 @@ namespace CulterSystem.CommonSystem.CharacterSytem
 
             //변수 초기화
             m_FlyState = FlyStateEnum.Float;                            //기본적으론 떠있음
+            MoveSpeed = new DataValue<float>(m_MoveSpeed);
+            JumpPower = new DataValue<float>(m_JumpPower);
         }
 
         //Unity Event
@@ -66,7 +84,7 @@ namespace CulterSystem.CommonSystem.CharacterSytem
             if (m_IsMovedThisFrame)
             {
                 float changeSec = m_MoveMaxSec * ((FlyState == FlyStateEnum.Jump) ? m_JumpMoveChangeFactor : 1);    //몇초에 걸쳐 이동속도를 변경할지 구한다. (Jump중인 경우 다르다)
-                SetMoveVelocityLerp(changeSec, m_MoveVelocity * m_MaxMoveSpeed);                                    //실제로 변경시킨다.
+                SetMoveVelocityLerp(changeSec, m_MoveVelocity * MoveSpeed.Value);                                    //실제로 변경시킨다.
                 m_CharacterCapsule.sharedMaterial = m_MovePhysicsMaterial;                                          //미끄러지는 재질로 변경한다.
             }
             //이동하지 않은 경우
@@ -138,11 +156,15 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         /// 해당 방향으로 이동합니다.
         /// </summary>
         /// <param name="vec">이동할 속도</param>
-        public void Move(Vector2 vec)
+        /// <param name="isNow">즉시 해당 속도로 변할지</param>
+        public void Move(Vector2 vec, bool isNow = false)
         {
             m_IsMovedThisFrame = true;                  //이번 프레임에 이동했다고 한다.
-            m_MoveVelocity = m_MaxMoveSpeed * vec;      //이동 방향/세기를 기록한다.
+            m_MoveVelocity = MoveSpeed.Value * vec;      //이동 방향/세기를 기록한다.
             m_MoveEndTimer = m_MoveMinSec;              //이동 타이머를 초기화한다.
+
+            if (isNow)
+                m_Rigidbody.velocity = new Vector3(vec.x, m_Rigidbody.velocity.y, vec.y);
         }
         /// <summary>
         /// 점프합니다.
@@ -151,7 +173,7 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         public void Jump(float power = 1.0f)
         {
             //점프처리를 한다.
-            m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower * power, m_Rigidbody.velocity.z);    //velocity를 설정한다.
+            m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, JumpPower.Value * power, m_Rigidbody.velocity.z);    //velocity를 설정한다.
             ++m_CurrentJumpCount;                                                                   //점프 카운트를 변경한다.
 
             //FlyState변경
@@ -170,8 +192,8 @@ namespace CulterSystem.CommonSystem.CharacterSytem
             //변경에 걸리는 시간이 0이 아닌 경우 changeSec에 걸쳐 변경한다.
             if (changeSec != 0)
             {
-                float velocityX = Mathf.Lerp(m_Rigidbody.velocity.x, move.x, (m_MaxMoveSpeed / Mathf.Abs(m_Rigidbody.velocity.x - move.x)) * Time.deltaTime / changeSec);
-                float velocityY = Mathf.Lerp(m_Rigidbody.velocity.z, move.y, (m_MaxMoveSpeed / Mathf.Abs(m_Rigidbody.velocity.z - move.y)) * Time.deltaTime / changeSec);
+                float velocityX = Mathf.Lerp(m_Rigidbody.velocity.x, move.x, (MoveSpeed.Value / Mathf.Abs(m_Rigidbody.velocity.x - move.x)) * Time.deltaTime / changeSec);
+                float velocityY = Mathf.Lerp(m_Rigidbody.velocity.z, move.y, (MoveSpeed.Value / Mathf.Abs(m_Rigidbody.velocity.z - move.y)) * Time.deltaTime / changeSec);
                 m_Rigidbody.velocity = new Vector3(velocityX, m_Rigidbody.velocity.y, velocityY);
             }
             //0인 경우는 즉시 변경한다.

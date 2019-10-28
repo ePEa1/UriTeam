@@ -16,7 +16,7 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         /// <summary>
         /// 해당 컨트롤을 소유하고있는 캐릭터를 가져옵니다.
         /// </summary>
-        public Character ParentCharacter
+        public Character CurrentCharacter
         {
             get;
             private set;
@@ -30,7 +30,7 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         /// <param name="parentCharacter"></param>
         public void Init(Character parentCharacter)
         {
-            ParentCharacter = parentCharacter;
+            CurrentCharacter = parentCharacter;
         }
 
         //CharacterControl

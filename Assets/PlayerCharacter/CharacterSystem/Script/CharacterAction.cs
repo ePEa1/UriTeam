@@ -93,11 +93,11 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         /// </summary>
         internal void EndAction()
         {
-            CurrentCharacter = null;
-            CurrentAni = null;
-
             //이벤트 호출
             OnEndAction();
+
+            CurrentCharacter = null;
+            CurrentAni = null;
         }
         /// <summary>
         /// 애니메이션 이벤트를 호출합니다.
