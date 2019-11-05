@@ -5,9 +5,6 @@ using CulterSystem.CommonSystem.CharacterSytem;
 
 public class PlayerCharacterControl : CharacterControl
 {
-    #region Inspector
-    [SerializeField] private Camera m_MainCamera;
-    #endregion
     #region Get,Set
     /// <summary>
     /// 무기 스위칭 (Q - down)
@@ -78,8 +75,20 @@ public class PlayerCharacterControl : CharacterControl
         }
     }
     #endregion
+    #region Value
+    private Camera m_MainCamera;
+    #endregion
 
     #region Event
+    /// <summary>
+    /// 초기화합니다.
+    /// </summary>
+    /// <param name="mainCamera"></param>
+    public void Init(Camera mainCamera)
+    {
+        m_MainCamera = mainCamera;
+    }
+
     public override void OnUpdateControl()
     {
         //AttackDirection

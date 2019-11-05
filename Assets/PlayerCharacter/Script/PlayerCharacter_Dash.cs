@@ -37,7 +37,7 @@ public class PlayerCharacter_Dash : PlayerCharacter_ActionBase
     protected override CharacterAction OnUpdateAction()
     {
         PlayerCharacter player = CurrentCharacter as PlayerCharacter;
-        CharacterPhysic3D physic = player.ChildPhysic as CharacterPhysic3D;
+        CharacterPhysicCharacterController physic = player.ChildPhysic as CharacterPhysicCharacterController;
 
         //실제 구르기 처리되는 시간
         m_Timer += Time.unscaledDeltaTime * player.PlayerTimeScale;
