@@ -14,7 +14,7 @@ public class PlayerCharacter_Default : PlayerCharacter_ActionBase
         //사용할 값들 캐스팅 (에러나면 게임작동하면 안되니까 그냥 예외처리 없음)
         PlayerCharacterControl control = CurrentCharacter.CurrentControl as PlayerCharacterControl;
         PlayerCharacter player = CurrentCharacter as PlayerCharacter;
-        CharacterPhysic3D physic = player.ChildPhysic as CharacterPhysic3D;
+        CharacterPhysicCharacterController physic = player.ChildPhysic as CharacterPhysicCharacterController;
 
         //기본 업데이트 (다른 액션으로 이동 처리)
         CharacterAction action = base.OnUpdateAction();
