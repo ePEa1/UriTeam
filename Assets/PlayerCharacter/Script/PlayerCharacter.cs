@@ -1,4 +1,5 @@
 ﻿using CulterSystem.BaseSystem.DataSystem;
+using CulterSystem.CommonSystem.CameraSystem;
 using CulterSystem.CommonSystem.CharacterSytem;
 using Sirenix.OdinInspector;
 using System.Collections;
@@ -12,6 +13,7 @@ public class PlayerCharacter : Character
 {
     #region Inspector
     [Title("Component")]
+    [SerializeField] private CameraManager m_CameraManager;     //카메라 매니저
     [SerializeField] private Animator m_Animator;               //애니메이터
     [SerializeField] private PlayerCharacter_Die m_DieAction;   //사망시의 액션
 
@@ -154,6 +156,10 @@ public class PlayerCharacter : Character
     protected override void OnInit()
     {
         base.OnInit();
+
+        //카메라 매니저 관련 초기화
+        m_CameraManager.Init();
+        (CurrentControl as PlayerCharacterControl).Init(m_CameraManager.CurentCamera);
 
         //IsDied 초기값 및 true 변경시 사망처리
         IsDied = new DataValue<bool>(false);

@@ -38,6 +38,10 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
                 Attack();
                 return this;
             }
+
+            //대쉬로 캔슬 가능
+            if (0.1f < control.Move.magnitude && control.Dash)
+                return player.DashAction;
         }
 
         //공격 애니메이션이 끝났으면 끝...
