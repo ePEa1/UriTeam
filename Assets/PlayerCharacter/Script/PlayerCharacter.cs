@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using static Data;
+using static GameManager;
 
 public class PlayerCharacter : Character
 {
@@ -38,16 +39,6 @@ public class PlayerCharacter : Character
         }
     }
     /// <summary>
-    /// 현재 시간이 (거의) 완전히 멈췄는지
-    /// </summary>
-    public bool IsTimeStopped
-    {
-        get
-        {
-            return (0.99f < Mathf.Abs(TimeStopProgress.Value));
-        }
-    }
-    /// <summary>
     /// 플레이어의 현재 TimeScale (멈추는 중에는 Time.timeScale, 멈춘후에는 1)
     /// </summary>
     public float PlayerTimeScale
@@ -57,7 +48,7 @@ public class PlayerCharacter : Character
             if (IsTimeStopped)
                 return 1.0f;
             else
-                return Time.timeScale;
+                return gameManager.TimeScale;
         }
     }
 
@@ -136,6 +127,16 @@ public class PlayerCharacter : Character
         get;
         private set;
     }
+    /// <summary>
+    /// 현재 시간이 (거의) 완전히 멈췄는지
+    /// </summary>
+    public bool IsTimeStopped
+    {
+        get
+        {
+            return (0.99f < Mathf.Abs(TimeStopProgress.Value));
+        }
+    }
     #endregion
     #region Value
     private DataConsumTimesReporter<int> m_BulletCount_ConsumeTimesReporter;        //그냥 총알갯수 줄어드는것 추적용임
@@ -180,28 +181,17 @@ public class PlayerCharacter : Character
                 IsDied.Value = true;
         }, false);
 
-        //TimeScale 초기값 및 값에따른 실제 timeScale 변경, timeScale 변경에 따른 처리
-        TimeStopProgress = new DataValue<float>(1.0f);
+        //TimeScale 변경에 따른 처리
+        TimeStopProgress = new DataValue<float>(0);
         TimeStopProgress.AddValueChangeEvent(() =>
         {
             //0~1으로 값 Clamp 
             float clampedValue = Mathf.Clamp01(TimeStopProgress.Value);
             TimeStopProgress.SetValue(clampedValue, false);
 
-            //TimeScale설정
-            Time.timeScale = data.TimeStop_CurveBetween.Evaluate(1 - TimeStopProgress.Value);
-
-            //시간이 완전히 정지되었을 때 플레이어는 시간정지에서 벗어난다.
-            if(IsTimeStopped)
-            {
-                m_Animator.updateMode = AnimatorUpdateMode.UnscaledTime;
-                //TODO : Physics도 벗어나도록 해야함 아니 Rigidbody에는 관련옵션이 없네
-            }
-            else
-            {
-                m_Animator.updateMode = AnimatorUpdateMode.Normal;
-                //TODO : Physics도 다시 원래대로 시간정지 영향받도록 한다. 아니 근데 Rigidbody는 어차피 영향받지
-            }
+            //시간정지에 따른 플레이어에게 가해지는 효과 설정
+            m_Animator.speed = PlayerTimeScale;
+            (ChildPhysic as CharacterPhysicCharacterController).SimulateScale = PlayerTimeScale;
 
         }, true);
 
@@ -243,7 +233,7 @@ public class PlayerCharacter : Character
         //기타 값들 설정
         IsUsingTimeStop = new DataValue<bool>(false);
         TimeStopCoolDown = new DataValue<float>(0);
-        (ChildPhysic as CharacterPhysic3D)?.MoveSpeed.SetValue(data.Char_MoveSpd, false);       //MoveSpeed
+        (ChildPhysic as CharacterPhysicCharacterController)?.MoveSpeed.SetValue(data.Char_MoveSpd, false);       //MoveSpeed
     }
     protected override void OnUpdate()
     {

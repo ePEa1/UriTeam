@@ -38,11 +38,6 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
                 Attack();
                 return this;
             }
-
-            //캔슬
-            CharacterAction action = base.OnUpdateAction();
-            if (action != this)
-                return action;
         }
 
         //공격 애니메이션이 끝났으면 끝...
