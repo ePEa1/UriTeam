@@ -48,7 +48,7 @@ public class PlayerCharacter : Character
         get
         {
             if (IsTimeStopped)
-                return 1.0f;
+                return data.TimeStop_PlayerTimeScale;
             else
                 return gameManager.TimeScale;
         }

@@ -74,6 +74,7 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("선딜레이(sec)")] public float TimeStop_MsBetweenActive = 0.5f;                  //적용완료
     [SerializeField, LabelText("후딜레이(sec)")] public float TimeStop_MsBetweenEnd = 1.0f;                     //적용완료
     [SerializeField, LabelText("선/후딜레이 커브")] public AnimationCurve TimeStop_CurveBetween;               //적용완료 / 없길래 추가한것임
+    [SerializeField, LabelText("시간정지시 플레이어 시간배율")] public float TimeStop_PlayerTimeScale = 0.5f;    //적용완료
 
     [Title("컨트롤")]
     [SerializeField, LabelText("최대 시간에너지")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료
