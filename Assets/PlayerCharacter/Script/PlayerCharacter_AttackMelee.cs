@@ -18,7 +18,6 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
     {
         //초기값들 설정
         m_IsMeleeAttackEnd = false;
-        m_ComboIndex = 0;
         m_ComboIndex = -1;
 
         //공격!!!
@@ -70,10 +69,11 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
         PlayerCharacterControl control = CurrentCharacter.CurrentControl as PlayerCharacterControl;
 
         m_ComboIndex = (m_ComboIndex + 1) % data.MeleeAtk.Length;
-        player.SetLookVector(control.AttackDirection, true);
         CurrentAni.PlayAnimation($"Attack_Melee_{m_ComboIndex}", true);
-
         m_Timer = 0;
+
+        if(m_ComboIndex == 0)
+            player.SetLookVector(control.AttackDirection, true);
     }
     #endregion
 }

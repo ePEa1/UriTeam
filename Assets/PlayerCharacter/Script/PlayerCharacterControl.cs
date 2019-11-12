@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using CulterSystem.CommonSystem.CharacterSytem;
 
+using static Data;
+
 public class PlayerCharacterControl : CharacterControl
 {
     #region Get,Set
@@ -13,7 +15,7 @@ public class PlayerCharacterControl : CharacterControl
     {
         get
         {
-            return Input.GetKeyDown(KeyCode.Q);
+            return Input.GetKeyDown(data.Key_SwitchWeapon);
         }
     }
     /// <summary>
@@ -24,13 +26,13 @@ public class PlayerCharacterControl : CharacterControl
         get
         {
             Vector2 move = Vector2.zero;
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(data.Key_MoveForward))
                 move.y = 1.0f;
-            else if (Input.GetKey(KeyCode.S))
+            else if (Input.GetKey(data.Key_MoveBack))
                 move.y = -1.0f;
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(data.Key_MoveRight))
                 move.x = 1.0f;
-            else if (Input.GetKey(KeyCode.A))
+            else if (Input.GetKey(data.Key_MoveLeft))
                 move.x = -1.0f;
 
             return move.normalized;
@@ -43,7 +45,7 @@ public class PlayerCharacterControl : CharacterControl
     {
         get
         {
-            return Input.GetKeyDown(KeyCode.LeftShift);
+            return Input.GetKeyDown(data.Key_Dash);
         }
     }
     /// <summary>
@@ -53,7 +55,7 @@ public class PlayerCharacterControl : CharacterControl
     {
         get
         {
-            return Input.GetMouseButton(0);
+            return Input.GetKeyDown(data.Key_Attack);
         }
     }
     /// <summary>
@@ -71,7 +73,7 @@ public class PlayerCharacterControl : CharacterControl
     {
         get
         {
-            return Input.GetKey(KeyCode.Space);
+            return Input.GetKey(data.Key_TimeStop);
         }
     }
     #endregion

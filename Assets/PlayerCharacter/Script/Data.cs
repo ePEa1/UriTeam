@@ -74,6 +74,16 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("선딜레이(sec)")] public float TimeStop_MsBetweenActive = 0.5f;                  //적용완료
     [SerializeField, LabelText("후딜레이(sec)")] public float TimeStop_MsBetweenEnd = 1.0f;                     //적용완료
     [SerializeField, LabelText("선/후딜레이 커브")] public AnimationCurve TimeStop_CurveBetween;               //적용완료 / 없길래 추가한것임
+
+    [Title("컨트롤")]
+    [SerializeField, LabelText("최대 시간에너지")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료
+    [SerializeField, LabelText("이동(앞쪽)")] public KeyCode Key_MoveForward = KeyCode.W;                       //적용완료
+    [SerializeField, LabelText("이동(왼쪽)")] public KeyCode Key_MoveLeft = KeyCode.A;                          //적용완료
+    [SerializeField, LabelText("이동(오른쪽)")] public KeyCode Key_MoveRight = KeyCode.D;                        //적용완료
+    [SerializeField, LabelText("이동(뒤쪽)")] public KeyCode Key_MoveBack = KeyCode.S;                          //적용완료
+    [SerializeField, LabelText("대쉬")] public KeyCode Key_Dash = KeyCode.LeftShift;                          //적용완료
+    [SerializeField, LabelText("공격")] public KeyCode Key_Attack = KeyCode.Mouse0;                          //적용완료
+    [SerializeField, LabelText("시간정지")] public KeyCode Key_TimeStop = KeyCode.Space;                          //적용완료
     #endregion
 
     #region Event
