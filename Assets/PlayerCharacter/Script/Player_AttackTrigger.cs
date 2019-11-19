@@ -35,7 +35,6 @@ public class Player_AttackTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
         GetDamageComponent(other, out MonoBehaviour damObject, out Transform damTrans, out IDamage iDamage);
         onTargetTriggered.Invoke(damTrans, damObject, iDamage, m_Damage);
     }
@@ -65,6 +64,16 @@ public class Player_AttackTrigger : MonoBehaviour
         {
             damObject = enemyController;
             damTrans = enemyController.transform;
+            return;
+        }
+
+        //AttackableObject
+        AttackableObject attackableObj = other.GetComponentInParent<AttackableObject>();
+        iDamage = attackableObj as IDamage;
+        if (iDamage != null)
+        {
+            damObject = attackableObj;
+            damTrans = attackableObj.transform;
             return;
         }
     }

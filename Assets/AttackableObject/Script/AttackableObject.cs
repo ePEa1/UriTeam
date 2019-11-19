@@ -4,10 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using static Data;
+using static GameManager;
+
 public class AttackableObject : MonoBehaviour, IDamage
 {
     #region Inspector
-    [SerializeField, LabelText("오브젝트 최대 HP")] private int m_MaxHP;
+    [SerializeField] private Rigidbody m_Rigidbody;
+    [SerializeField, LabelText("오브젝트 ID")] private string m_ID;
     #endregion
     #region Get,Set
     /// <summary>
@@ -26,31 +30,45 @@ public class AttackableObject : MonoBehaviour, IDamage
 
     #region Event
     //Unity Event
-    private void Awake()
+    private void Start()
     {
-        HP = new DataValue<float>(m_MaxHP);
-        HP.AddValueChangeEvent(() =>
-        {
+        ObjectTableStruct objectTable = data.GetObjectTable(m_ID);
 
-        }, true);
+        HP = new DataValue<float>((float)objectTable.HP);
     }
     private void Update()
     {
+        if (!gameManager.IsTimeStopped)
+        {
+            if(0 < m_KnockBackCount)
+            {
+                m_Rigidbody.velocity = m_KnockBackDir * data.GetKnockForce(m_KnockBackCount);
+                m_KnockBackCount = 0;
+            }
 
+            if (HP.Value <= 0 && m_Rigidbody.velocity.sqrMagnitude < 0.01f)
+            {
+                Die();
+            }
+        }
     }
 
     //IDamage Event
     public void OnDamEvent(float d)
     {
+        HP.Value -= d;
     }
     public void OnKnockEvent(Vector3 nor)
     {
+        ++m_KnockBackCount;
+        m_KnockBackDir += nor / m_KnockBackCount;
+        m_KnockBackDir.Normalize();
     }
     #endregion
     #region Function
     private void Die()
     {
-
+        Destroy(gameObject);
     }
     #endregion
 }

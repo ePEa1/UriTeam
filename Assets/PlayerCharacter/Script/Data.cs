@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 
 //CSV 사용하기 전에 임시로 사용할 클래스
 public class Data : MonoBehaviour
@@ -99,6 +100,9 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("공격")] public KeyCode Key_Attack = KeyCode.Mouse0;                          //적용완료
     [SerializeField, LabelText("시간정지")] public KeyCode Key_TimeStop = KeyCode.Space;                          //적용완료
     #endregion
+    #region Value
+    private Dictionary<string, ObjectTableStruct> m_ObjectTableDic = new Dictionary<string, ObjectTableStruct>();
+    #endregion
 
     #region Event
     private void Awake()
@@ -109,11 +113,20 @@ public class Data : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             //기타 초기화
+            for (int i = 0; i < ObjectTable.Length; ++i)
+                m_ObjectTableDic.Add(ObjectTable[i].ID, ObjectTable[i]);
         }
         else
             Destroy(gameObject);
     }
     #endregion
     #region Function
+    public ObjectTableStruct GetObjectTable(string id)
+    {
+        if (m_ObjectTableDic.TryGetValue(id, out ObjectTableStruct value))
+            return value;
+        else
+            return new ObjectTableStruct();
+    }
     #endregion
 }
