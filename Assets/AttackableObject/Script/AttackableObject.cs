@@ -52,6 +52,16 @@ public class AttackableObject : MonoBehaviour, IDamage
             }
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        AttackTriggerUtil.GetDamageComponent(collision.collider, out MonoBehaviour damObject, out Transform damTrans, out IDamage iDamage);
+        if (iDamage != null)
+        {
+            ObjectTableStruct objectTable = data.GetObjectTable(m_ID);
+            iDamage.OnDamEvent(objectTable.Damage);
+            Die();
+        }
+    }
 
     //IDamage Event
     public void OnDamEvent(float d)

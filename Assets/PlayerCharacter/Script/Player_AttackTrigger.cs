@@ -6,6 +6,38 @@ using System;
 using static Data;
 using static GameManager;
 
+public class AttackTriggerUtil
+{
+    //Public
+    public static void GetDamageComponent(Collider other, out MonoBehaviour damObject, out Transform damTrans, out IDamage iDamage)
+    {
+        //
+        damObject = null;
+        damTrans = null;
+        iDamage = null;
+
+        //EnemyController
+        EnemyController enemyController = other.GetComponentInParent<EnemyController>();
+        iDamage = enemyController as IDamage;
+        if (iDamage != null)
+        {
+            damObject = enemyController;
+            damTrans = enemyController.transform;
+            return;
+        }
+
+        //AttackableObject
+        AttackableObject attackableObj = other.GetComponentInParent<AttackableObject>();
+        iDamage = attackableObj as IDamage;
+        if (iDamage != null)
+        {
+            damObject = attackableObj;
+            damTrans = attackableObj.transform;
+            return;
+        }
+    }
+}
+
 public class Player_AttackTrigger : MonoBehaviour
 {
     #region Get,Set
@@ -35,7 +67,7 @@ public class Player_AttackTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GetDamageComponent(other, out MonoBehaviour damObject, out Transform damTrans, out IDamage iDamage);
+        AttackTriggerUtil.GetDamageComponent(other, out MonoBehaviour damObject, out Transform damTrans, out IDamage iDamage);
         onTargetTriggered.Invoke(damTrans, damObject, iDamage, m_Damage);
     }
     #endregion
@@ -47,35 +79,6 @@ public class Player_AttackTrigger : MonoBehaviour
     internal void Cast()
     {
         //TODO : 필요해지면 그떄 구현
-    }
-    
-    //Private
-    private void GetDamageComponent(Collider other, out MonoBehaviour damObject, out Transform damTrans, out IDamage iDamage)
-    {
-        //
-        damObject = null;
-        damTrans = null;
-        iDamage = null;
-
-        //EnemyController
-        EnemyController enemyController = other.GetComponentInParent<EnemyController>();
-        iDamage = enemyController as IDamage;
-        if(iDamage != null)
-        {
-            damObject = enemyController;
-            damTrans = enemyController.transform;
-            return;
-        }
-
-        //AttackableObject
-        AttackableObject attackableObj = other.GetComponentInParent<AttackableObject>();
-        iDamage = attackableObj as IDamage;
-        if (iDamage != null)
-        {
-            damObject = attackableObj;
-            damTrans = attackableObj.transform;
-            return;
-        }
     }
     #endregion
 }

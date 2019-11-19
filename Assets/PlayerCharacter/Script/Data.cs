@@ -39,6 +39,7 @@ public class Data : MonoBehaviour
     {
         [SerializeField, LabelText("ID")] public string ID;
         [SerializeField, LabelText("HP")] public int HP;
+        [SerializeField, LabelText("Damage")] public int Damage;
     }
     #endregion
 
@@ -139,7 +140,15 @@ public class Data : MonoBehaviour
     /// <returns></returns>
     public float GetKnockForce(int knockbackCount)
     {
-        return 0;
+        float knockback = 0;
+
+        for (int i = 0; i < ForceCharging.Length; ++i)
+        {
+            if (ForceCharging[i].AtkValue <= knockbackCount)
+                knockback = ForceCharging[i].KnockBackForce;
+        }
+
+        return knockback;
     }
     #endregion
 }

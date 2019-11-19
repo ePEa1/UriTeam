@@ -237,7 +237,13 @@ public class PlayerCharacter : Character, IDamage
             {
                 iDamage?.OnDamEvent(damage);
                 if (gameManager.IsTimeStopped)
-                    iDamage?.OnKnockEvent((damTrans.position - transform.position).normalized);
+                {
+                    Vector3 vec = damTrans.position - transform.position;
+                    vec.y = 0;
+                    vec.Normalize();
+
+                    iDamage?.OnKnockEvent(vec);
+                }
             }
         };
 
