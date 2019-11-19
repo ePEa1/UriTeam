@@ -10,6 +10,8 @@ public class Data : MonoBehaviour
     /// </summary>
     [System.Serializable] public struct DamageTableStruct
     {
+        [SerializeField, LabelText("공격판정 시작시간(sec)")] public float TriggerTime;
+        [SerializeField, LabelText("공격판정 지속시간(sec)")] public float TriggerDur;
         [SerializeField, LabelText("캔슬가능 시작 시간(sec)")] public float ActiveTime;     //적용완료
         [SerializeField, LabelText("데미지")] public float Dmg;
     }
@@ -28,6 +30,14 @@ public class Data : MonoBehaviour
             KnockBackForce = _knockBackForce;
             CollisionDmg = _collisionDmg;
         }
+    }
+    /// <summary>
+    /// 오브젝트 테이블 구조체
+    /// </summary>
+    [System.Serializable] public struct ObjectTableStruct
+    {
+        [SerializeField, LabelText("ID")] public string ID;
+        [SerializeField, LabelText("HP")] public int HP;
     }
     #endregion
 
@@ -76,6 +86,9 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("선/후딜레이 커브")] public AnimationCurve TimeStop_CurveBetween;               //적용완료 / 없길래 추가한것임
     [SerializeField, LabelText("시간정지시 플레이어 시간배율")] public float TimeStop_PlayerTimeScale = 0.5f;    //적용완료
 
+    [Title("테이블")]
+    [SerializeField, LabelText("오브젝트 테이블")] public ObjectTableStruct[] ObjectTable;
+
     [Title("컨트롤")]
     [SerializeField, LabelText("무기 스위칭")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료
     [SerializeField, LabelText("이동(앞쪽)")] public KeyCode Key_MoveForward = KeyCode.W;                       //적용완료
@@ -94,9 +107,13 @@ public class Data : MonoBehaviour
         {
             data = this;
             DontDestroyOnLoad(gameObject);
+
+            //기타 초기화
         }
         else
             Destroy(gameObject);
     }
+    #endregion
+    #region Function
     #endregion
 }

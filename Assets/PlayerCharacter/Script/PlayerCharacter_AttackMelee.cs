@@ -9,6 +9,8 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
 {
     #region Value
     private float m_Timer;
+    private bool m_IsTriggered;
+    private float m_TriggerTimer;
     private bool m_IsMeleeAttackEnd;                        //근접공격 애니메이션이 끝났는지  (끝나면 바로 다시 Default로 돌아감)
     private int m_ComboIndex;
     #endregion
@@ -29,6 +31,23 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
         PlayerCharacterControl control = CurrentCharacter.CurrentControl as PlayerCharacterControl;
 
         m_Timer += Time.unscaledDeltaTime * player.PlayerTimeScale;
+
+        if (!m_IsTriggered)
+        {
+            if (data.MeleeAtk[m_ComboIndex].TriggerTime <= m_Timer)
+            {
+                m_IsTriggered = true;
+                m_TriggerTimer = data.MeleeAtk[m_ComboIndex].TriggerDur;
+                player.AttackTrigger.Enable(data.MeleeAtk[m_ComboIndex].Dmg);
+            }
+        }
+        else if(0 < m_TriggerTimer)
+        {
+            m_TriggerTimer -= Time.deltaTime;
+            if (m_TriggerTimer <= 0)
+                player.AttackTrigger.Disable();
+        }
+
         if (data.MeleeAtk[m_ComboIndex].ActiveTime <= m_Timer)
         {
             //계속 공격하면 콤보!
@@ -70,6 +89,7 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
 
         m_ComboIndex = (m_ComboIndex + 1) % data.MeleeAtk.Length;
         CurrentAni.PlayAnimation($"Attack_Melee_{m_ComboIndex}", true);
+        m_IsTriggered = false;
         m_Timer = 0;
 
         if(m_ComboIndex == 0)

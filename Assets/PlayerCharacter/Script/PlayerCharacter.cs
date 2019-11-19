@@ -9,7 +9,7 @@ using UnityEngine;
 using static Data;
 using static GameManager;
 
-public class PlayerCharacter : Character
+public class PlayerCharacter : Character, IDamage
 {
     #region Inspector
     [Title("Component")]
@@ -23,6 +23,9 @@ public class PlayerCharacter : Character
     [SerializeField] public PlayerCharacter_Switch SwitchAction;
     [SerializeField] public PlayerCharacter_AttackRange AttackRangeAction;
     [SerializeField] public PlayerCharacter_AttackMelee AttackMeleeAction;
+
+    //얘도 귀찮아서
+    [SerializeField] public Player_AttackTrigger AttackTrigger;
 
     [Title("Option")]
     [SerializeField] private bool m_IsAutoInit = true;                  //자동으로 init함수를 호출할지
@@ -226,6 +229,18 @@ public class PlayerCharacter : Character
             }
         });
 
+        //AttackTrigger 트리거 이벤트 정의
+        AttackTrigger.Disable();
+        AttackTrigger.onTargetTriggered += (Transform damTrans, MonoBehaviour damObject, IDamage iDamage, float damage) =>
+        {
+            if (iDamage != null && damObject.GetComponent<PlayerCharacter>() == null)
+            {
+                iDamage?.OnDamEvent(damage);
+                if (gameManager.IsTimeStopped)
+                    iDamage?.OnKnockEvent((damTrans.position - transform.position).normalized);
+            }
+        };
+
         //기타 값들 설정
         IsUsingTimeStop = new DataValue<bool>(false);
         TimeStopCoolDown = new DataValue<float>(0);
@@ -276,6 +291,15 @@ public class PlayerCharacter : Character
             TimeStopProgress.Value -= Time.unscaledDeltaTime / data.TimeStop_MsBetweenEnd;
             TimeStopCoolDown.Value -= Time.unscaledDeltaTime;
         }
+    }
+
+    //IDamage Event
+    public void OnDamEvent(float d)
+    {
+        Debug.Log($"Player Damaged {d}");
+    }
+    public void OnKnockEvent(Vector3 nor)
+    {
     }
     #endregion
     #region Function

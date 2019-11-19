@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-interface IDamage
+public interface IDamage
 {
     void OnDamEvent(float d);
     void OnKnockEvent(Vector3 nor);
