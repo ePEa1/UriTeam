@@ -121,12 +121,25 @@ public class Data : MonoBehaviour
     }
     #endregion
     #region Function
+    /// <summary>
+    /// 해당 ID의 오브젝트 테이블 데이터를 가져옵니다.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public ObjectTableStruct GetObjectTable(string id)
     {
         if (m_ObjectTableDic.TryGetValue(id, out ObjectTableStruct value))
             return value;
         else
             return new ObjectTableStruct();
+    }
+    /// <summary>
+    /// 공격 횟수에 따른 넉백값을 가져옵니다.
+    /// </summary>
+    /// <returns></returns>
+    public float GetKnockForce(int knockbackCount)
+    {
+        return 0;
     }
     #endregion
 }
