@@ -103,25 +103,24 @@ public class EnemyController : MonoBehaviour, IDamage
         switch(NowStat)
         {
             case EStat.MOVE:
+                //이동 구현되있는거 실행
                 compMove.Moving(EnemyView_RushSpd, EnemyView_RushRad, EnemyView_RunSpd, EnemyView_RunRad);
+
+                //공격 가능하면 공격이벤트 발생
                 if (Enemy_NowAtkCool <= 0 && EnemyView_AtkRad >= 10.0f)
                 {
-
+                    OnAtkEvent();
                 }
                 break;
 
             case EStat.KNOCKBACK:
-                //if (IsKnockback)
-                //{
-                    //transform.Translate(compKnock.KnockVector());
-                //}
+                //날라가는 코드 실행
                 compKnock.KnockUpdate();
                 break;
         }
-        KnockTest();
 
-        Debug.Log(NowStat);
-        
+        //테스트코드
+        KnockTest();
     }
 
     #endregion
@@ -130,37 +129,10 @@ public class EnemyController : MonoBehaviour, IDamage
 
     #region Method
 
-    public void SetSuperArmor(bool armor) { IsSuperArmor = armor; }
-    public bool GetSuperArmor() { return IsSuperArmor; }
-    public bool IsNotDam() { return notDam; }
-    public float GetKnockSpeed() { return Enemy_KnockSpeed; }
-
-    void Logic()
-    {
-        /*
-        switch (NowStat)
-        {
-            case EStat.MOVE: //이동중일경우
-                Moving(EnemyView_RushRad, EnemyView_RushSpd, EnemyView_RunSpd, EnemyView_RunSpd);
-
-                if (Enemy_NowAtkCool<=0)
-                {
-                    Attack();
-                    Enemy_NowAtkCool = Enemy_AtkCoolDown;
-                    ChangeStat(EStat.ATK);
-                }
-                break;
-
-            case EStat.DAMAGE:
-            case EStat.KNOCKBACK:
-                break;
-
-            case EStat.DEAD:
-                Dead();
-                break;
-        }
-        */
-    }
+    public void SetSuperArmor(bool armor) { IsSuperArmor = armor; } //슈퍼아머상태로 만들기
+    public bool GetSuperArmor() { return IsSuperArmor; } //슈퍼아머 상태인지 받기
+    public bool IsNotDam() { return notDam; } //무적상태인지
+    public float GetKnockSpeed() { return Enemy_KnockSpeed; } //넉백속도 받기
 
     //애니메이터 반환
     public Animator GetAnimator() { return animator; }

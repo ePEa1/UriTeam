@@ -24,6 +24,8 @@ public class EnemyKnockBase : MonoBehaviour
         manager = transform.parent.parent.GetComponent<EnemyController>();
     }
 
+    //현재 타수에 따른 데이터 가져오기
+    //수정할 예정임
     float GetKnockData(int knockNum)
     {
         float ret = 0.0f;
@@ -37,6 +39,7 @@ public class EnemyKnockBase : MonoBehaviour
         return ret;
     }
 
+    //컨트롤러의 업데이트에서 호출하는 코드
     public void KnockUpdate()
     {
         //실제 넉백당할 세기 계산
@@ -47,18 +50,22 @@ public class EnemyKnockBase : MonoBehaviour
         //넉백 세기 감소
         knockPow -= Time.deltaTime * knockGuard;
 
-        if (knockPow<=0)
+        if (knockPow<=0) //넉백 파워 다 떨어졌으면
         {
-            manager.OnMoveEvent();
-            knockPow = 0.0f;
-            knockNor = Vector3.zero;
-            knockNum = 0;
+            manager.OnMoveEvent(); //이동 상태로 변경
+            knockPow = 0.0f; //넉백 파워 초기화
+            knockNor = Vector3.zero; //넉백 방향 쵝화
+            knockNum = 0; //타수 초기화
         }
     }
 
+    //컨트롤러에서 호출되는 이벤트에서 호출되는 이벤트
     protected virtual void KnockEvent()
     {
+        //몬스터 상태 넉백으로 변경
         manager.ChangeStat(EnemyController.EStat.KNOCKBACK);
+
+        //넉백당하는 애니메이션으로 변경
         manager.GetAnimator().SetBool("Konck", true);
 
         //맞은 타수에 따라 넉백 세기 설정
@@ -72,19 +79,17 @@ public class EnemyKnockBase : MonoBehaviour
         knockNum++;
         //넉백 각도 추가
         knockNor += nor;
-        KnockEvent();
-    }
 
-    //넉백정보 반환
-    public Vector3 KnockVector()
-    {
-        return knockNor * knockPow;
+        //넉백 구현부
+        KnockEvent();
     }
 
     public virtual void Crash()
     {
+        //넉백 데미지 계산하는거였는데 수정해야됨
         //manager.EnemyHp -= knockDam;
-        //knockDam = 0.0f;
-        manager.OnMoveEvent();
+        //knockDam = 0.0f; 
+
+        manager.OnMoveEvent(); //이동 상태로 변경
     }
 }
