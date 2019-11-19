@@ -77,7 +77,7 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("시간정지시 플레이어 시간배율")] public float TimeStop_PlayerTimeScale = 0.5f;    //적용완료
 
     [Title("컨트롤")]
-    [SerializeField, LabelText("최대 시간에너지")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료
+    [SerializeField, LabelText("무기 스위칭")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료
     [SerializeField, LabelText("이동(앞쪽)")] public KeyCode Key_MoveForward = KeyCode.W;                       //적용완료
     [SerializeField, LabelText("이동(왼쪽)")] public KeyCode Key_MoveLeft = KeyCode.A;                          //적용완료
     [SerializeField, LabelText("이동(오른쪽)")] public KeyCode Key_MoveRight = KeyCode.D;                        //적용완료

@@ -47,7 +47,7 @@ public class PlayerCharacter : Character
     {
         get
         {
-            if (IsTimeStopped)
+            if (gameManager.IsTimeStopped)
                 return data.TimeStop_PlayerTimeScale;
             else
                 return gameManager.TimeScale;
@@ -128,16 +128,6 @@ public class PlayerCharacter : Character
     {
         get;
         private set;
-    }
-    /// <summary>
-    /// 현재 시간이 (거의) 완전히 멈췄는지
-    /// </summary>
-    public bool IsTimeStopped
-    {
-        get
-        {
-            return (0.99f < Mathf.Abs(TimeStopProgress.Value));
-        }
     }
     #endregion
     #region Value

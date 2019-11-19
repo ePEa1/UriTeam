@@ -55,7 +55,7 @@ public class PlayerCharacterControl : CharacterControl
     {
         get
         {
-            return Input.GetKeyDown(data.Key_Attack);
+            return Input.GetKey(data.Key_Attack);
         }
     }
     /// <summary>
