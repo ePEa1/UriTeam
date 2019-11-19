@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//namespace 
-public class CostomFunctions : MonoBehaviour
+namespace ePEaCostomFunction
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CostomFunctions
     {
-        
-    }
+        //최대값
+        public float Max(float n1, float n2)
+        {
+            if (n1 > n2)
+                return n1;
+            else return n2;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //최소값
+        public float Min(float n1, float n2)
+        {
+            if (n1 > n2)
+                return n2;
+            else return n1;
+        }
     }
 }
+

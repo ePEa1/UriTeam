@@ -3,7 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class EnemyController : MonoBehaviour
+interface IDamage
+{
+    void OnDamEvent(float d);
+    void OnKnockEvent(Vector3 nor);
+
+}
+
+public class EnemyController : MonoBehaviour, IDamage
 {
     #region Values
 

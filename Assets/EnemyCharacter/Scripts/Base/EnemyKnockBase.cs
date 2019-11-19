@@ -26,7 +26,7 @@ public class EnemyKnockBase : MonoBehaviour
 
     void Update()
     {
-        knockPow -= knockPow * knockGuard * Time.deltaTime;
+        //knockPow -= knockPow * knockGuard * Time.deltaTime;
     }
 
     protected virtual void KnockEvent(float dam)
@@ -42,14 +42,17 @@ public class EnemyKnockBase : MonoBehaviour
         //KnockEvent(Data.data.ForceCharging[]);
 
         //넉백정보 저장
-        knockNum++;
+
+        if (maxKnock > knockNum)
+            knockNum++;
+
+        //
+        knockNor += nor;
 
         //knockNor = nor;
         //knockPow = pow;
         //knockDam = dam;
     }
-
-
 
     //넉백정보 반환
     public Vector3 KnockVector()
