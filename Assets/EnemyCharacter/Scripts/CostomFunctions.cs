@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace ePEaCostomFunction
 {
-    public class CostomFunctions
+    public static class CostomFunctions
     {
         //최대값
-        public float Max(float n1, float n2)
+        public static float Max(float n1, float n2)
         {
             if (n1 > n2)
                 return n1;
@@ -15,7 +15,7 @@ namespace ePEaCostomFunction
         }
 
         //최소값
-        public float Min(float n1, float n2)
+        public static float Min(float n1, float n2)
         {
             if (n1 > n2)
                 return n2;

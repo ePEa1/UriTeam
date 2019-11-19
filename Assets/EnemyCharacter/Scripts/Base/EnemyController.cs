@@ -31,6 +31,7 @@ public class EnemyController : MonoBehaviour, IDamage
     [SerializeField, TabGroup("Option"), LabelText("접근 가능 사정거리")] float EnemyView_RushRad; //접근가능 사정거리
     [SerializeField, TabGroup("Option"), LabelText("도망 이동속도")] float EnemyView_RunSpd; //도망 시 이동속도
     [SerializeField, TabGroup("Option"), LabelText("도망 가능 사정거리")] float EnemyView_RunRad; //도망 사정거리
+    [SerializeField, TabGroup("Option"), LabelText("넉백 날라가는 속도")] float Enemy_KnockSpeed; //넉백당할 시 날라가는 속도
 
     [Title("이동 컴포넌트")]
     [SerializeField, TabGroup("Component"), LabelText("이동")] EnemyMoveBase compMove; //적 이동 구현 컴포넌트
@@ -110,12 +111,16 @@ public class EnemyController : MonoBehaviour, IDamage
                 break;
 
             case EStat.KNOCKBACK:
-                if (IsKnockback)
-                {
-                    transform.Translate(compKnock.KnockVector());
-                }
+                //if (IsKnockback)
+                //{
+                    //transform.Translate(compKnock.KnockVector());
+                //}
+                compKnock.KnockUpdate();
                 break;
         }
+        KnockTest();
+
+        Debug.Log(NowStat);
         
     }
 
@@ -128,6 +133,7 @@ public class EnemyController : MonoBehaviour, IDamage
     public void SetSuperArmor(bool armor) { IsSuperArmor = armor; }
     public bool GetSuperArmor() { return IsSuperArmor; }
     public bool IsNotDam() { return notDam; }
+    public float GetKnockSpeed() { return Enemy_KnockSpeed; }
 
     void Logic()
     {
@@ -164,6 +170,18 @@ public class EnemyController : MonoBehaviour, IDamage
 
     //상태값 변경
     public void ChangeStat(EStat s) { NowStat = s; }
+
+    #endregion
+
+    //------------------
+
+    #region TestCode
+
+    public void KnockTest()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+            OnKnockEvent(new Vector3(10, 0, 0));
+    }
 
     #endregion
 }
