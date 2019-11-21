@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6557,8 +6557,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
+      time: 0.00034797564
+      value: 1.0235162
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -6587,11 +6587,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MeleeAtk:
-  - ActiveTime: 0.6
+  - ActiveTime: 0.28
     Dmg: 10
-  - ActiveTime: 0.6
+  - ActiveTime: 0.28
     Dmg: 10
-  - ActiveTime: 0.8
+  - ActiveTime: 0.5
     Dmg: 10
   ForceCharging:
   - AtkValue: 1
@@ -6603,10 +6603,10 @@ MonoBehaviour:
   - AtkValue: 5
     KnockBackForce: 14
     CollisionDmg: 200
-  Bullet_Max: 5
-  RangedAtk_MsBetweenShot: 0.1
+  Bullet_Max: 16
+  RangedAtk_MsBetweenShot: 0.07
   Projectile_Dmg: 5
-  Projectile_Spd: 2
+  Projectile_Spd: 3
   Projectile_LifeSpan: 10
   Bullet_MsBetweenRecover: 2
   Bullet_RecoverSpd: 1
@@ -6614,8 +6614,8 @@ MonoBehaviour:
   TimeStop_MaxActiveTime: 5
   TimeStop_EnergeUseRate: 5
   TimeStop_CoolDown: 1
-  TimeStop_MsBetweenActive: 1
-  TimeStop_MsBetweenEnd: 1
+  TimeStop_MsBetweenActive: 0.3
+  TimeStop_MsBetweenEnd: 0.6
   TimeStop_CurveBetween:
     serializedVersion: 2
     m_Curve:
@@ -6629,8 +6629,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
+      time: 0.9995402
+      value: 0.8244427
       inSlope: 0
       outSlope: 0
       tangentMode: 0
