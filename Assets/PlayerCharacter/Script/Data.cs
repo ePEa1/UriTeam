@@ -57,10 +57,11 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("캔슬가능 시작 시간(sec)")] public float Switching_ActiveTime = 1.0f;        //적용완료
 
     [Title("캐릭터 - 구르기")]
-    [SerializeField, LabelText("구르기 시간(sec)")] public float Rolling_RollTime = 0.5f;                   //적용완료 / 없길래 추가한것임 (구르기 애니메이션에서 구르기 시간이 실제 얼마일지는 모르니...)
     [SerializeField, LabelText("캔슬가능 시작 시간(sec)")] public float Rolling_ActiveTime = 1.0f;          //적용완료 / 없길래 추가한것임
     [SerializeField, LabelText("무적시간 전 시간(sec)")] public float Rolling_MsBetweenInvincible = 0.1f;  //적용완료
     [SerializeField, LabelText("무적 지속 시간(sec)")] public float Rolling_InvincibleActiveTime = 0.3f;      //적용완료
+    [Header("캐릭터 - 구르기(애니메이팅)")]
+    [SerializeField, LabelText("구르기 시간(sec)")] public float Rolling_RollTime = 0.5f;                   //적용완료 / 없길래 추가한것임 (구르기 애니메이션에서 구르기 시간이 실제 얼마일지는 모르니...)
     [SerializeField, LabelText("이동속도(m/s)")] public float Rolling_MoveSpd = 4;                          //적용완료
     [SerializeField, LabelText("구르기 이동속도 커브")] public AnimationCurve Rolling_Curve;                 //적용완료 / 없길래 추가한것임
 

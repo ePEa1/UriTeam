@@ -72,6 +72,7 @@ ModelImporter:
     100132: Bip001 Spine1
     100134: Bip001 Spine2
     100136: Group58372
+    100138: Knife
     400000: //RootNode
     400002: Bip001
     400004: Bip001 Footsteps
@@ -141,8 +142,12 @@ ModelImporter:
     400132: Bip001 Spine1
     400134: Bip001 Spine2
     400136: Group58372
+    400138: Knife
     2100000: PC_MOD_dummy_default
+    2300000: Knife
+    3300000: Knife
     4300000: Group58372
+    4300002: Knife
     7400000: Attack_Melee_1
     9500000: //RootNode
     13700000: Group58372
