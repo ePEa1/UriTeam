@@ -58,7 +58,7 @@ public class AttackableObject : MonoBehaviour, IDamage
         if (iDamage != null)
         {
             ObjectTableStruct objectTable = data.GetObjectTable(m_ID);
-            iDamage.OnDamEvent(objectTable.Damage);
+            iDamage.OnDamEvent(objectTable.Damage, new Vector3(0,0,0));
             Die();
         }
     }
@@ -79,6 +79,11 @@ public class AttackableObject : MonoBehaviour, IDamage
     private void Die()
     {
         Destroy(gameObject);
+    }
+
+    public void OnDamEvent(int atkNum, Vector3 nor)
+    {
+        throw new System.NotImplementedException();
     }
     #endregion
 }

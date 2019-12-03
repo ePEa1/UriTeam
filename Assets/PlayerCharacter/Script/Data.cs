@@ -141,12 +141,13 @@ public class Data : MonoBehaviour
     {
         float knockback = 0;
 
+        /*
         for (int i = 0; i < ForceCharging.Length; ++i)
         {
             if (ForceCharging[i].AtkValue <= knockbackCount)
                 knockback = ForceCharging[i].KnockBackForce;
         }
-
+        */
         return knockback;
     }
     #endregion

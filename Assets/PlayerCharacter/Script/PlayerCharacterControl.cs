@@ -73,7 +73,8 @@ public class PlayerCharacterControl : CharacterControl
     {
         get
         {
-            return Input.GetKey(data.Key_TimeStop);
+            //return Input.GetKey(data.Key_TimeStop);
+            return false;
         }
     }
     #endregion
