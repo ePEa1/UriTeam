@@ -235,15 +235,11 @@ public class PlayerCharacter : Character, IDamage
         {
             if (iDamage != null && damObject.GetComponent<PlayerCharacter>() == null)
             {
-                iDamage?.OnDamEvent(damage);
-                if (gameManager.IsTimeStopped)
-                {
-                    Vector3 vec = damTrans.position - transform.position;
-                    vec.y = 0;
-                    vec.Normalize();
+                Vector3 vec = damTrans.position - transform.position;
+                vec.y = 0;
+                vec.Normalize();
 
-                    iDamage?.OnKnockEvent(vec);
-                }
+                iDamage?.OnDamEvent((int)damage, vec);
             }
         };
 
@@ -300,12 +296,9 @@ public class PlayerCharacter : Character, IDamage
     }
 
     //IDamage Event
-    public void OnDamEvent(float d)
+    public void OnDamEvent(int atkNum, Vector3 nor)
     {
-        Debug.Log($"Player Damaged {d}");
-    }
-    public void OnKnockEvent(Vector3 nor)
-    {
+        TimeEnergy.Value -= atkNum;
     }
     #endregion
     #region Function
