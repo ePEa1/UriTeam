@@ -15,7 +15,8 @@ public class PlayerCharacterControl : CharacterControl
     {
         get
         {
-            return Input.GetKeyDown(data.Key_SwitchWeapon);
+            return false;
+            //return Input.GetKeyDown(data.Key_SwitchWeapon);
         }
     }
     /// <summary>
@@ -56,6 +57,17 @@ public class PlayerCharacterControl : CharacterControl
         get
         {
             return Input.GetKey(data.Key_Attack);
+        }
+    }
+    /// <summary>
+    /// 원거리 (마우스 오른쪽버튼)
+    /// </summary>
+    public bool Range
+    {
+        get
+        {
+            return false;
+            //return Input.GetKey(data.Key_Range);
         }
     }
     /// <summary>

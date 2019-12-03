@@ -93,13 +93,14 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("오브젝트 테이블")] public ObjectTableStruct[] ObjectTable;
 
     [Title("컨트롤")]
-    [SerializeField, LabelText("무기 스위칭")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료
+    //[SerializeField, LabelText("무기 스위칭")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료 -> 삭제됨
     [SerializeField, LabelText("이동(앞쪽)")] public KeyCode Key_MoveForward = KeyCode.W;                       //적용완료
     [SerializeField, LabelText("이동(왼쪽)")] public KeyCode Key_MoveLeft = KeyCode.A;                          //적용완료
     [SerializeField, LabelText("이동(오른쪽)")] public KeyCode Key_MoveRight = KeyCode.D;                        //적용완료
     [SerializeField, LabelText("이동(뒤쪽)")] public KeyCode Key_MoveBack = KeyCode.S;                          //적용완료
     [SerializeField, LabelText("대쉬")] public KeyCode Key_Dash = KeyCode.LeftShift;                          //적용완료
     [SerializeField, LabelText("공격")] public KeyCode Key_Attack = KeyCode.Mouse0;                          //적용완료
+    //[SerializeField, LabelText("원거리")] public KeyCode Key_Range = KeyCode.Mouse1;                          //적용완료
     [SerializeField, LabelText("시간정지")] public KeyCode Key_TimeStop = KeyCode.Space;                          //적용완료
     #endregion
     #region Value

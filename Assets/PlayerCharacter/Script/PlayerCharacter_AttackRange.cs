@@ -37,7 +37,7 @@ public class PlayerCharacter_AttackRange : PlayerCharacter_ActionBase
             return action;
 
         //그리고 마우스 떼면 캔슬함
-        if(!control.Attack)
+        if(!control.Attack || !control.Range)
             return player.DefaultAction;
 
         //총알이 있는 경우만 계속 진행

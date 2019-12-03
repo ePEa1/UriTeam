@@ -164,10 +164,10 @@ public class PlayerCharacter : Character, IDamage
 
         //IsUsingRange 초기값 및 값 변경에 따른 Animator 변수 변경 처리
         IsWeaponRange = new DataValue<bool>(false);
-        IsWeaponRange.AddValueChangeEvent(() =>
-        {
-            m_Animator.SetBool("UsingRange", IsWeaponRange.Value);
-        }, true);
+        //IsWeaponRange.AddValueChangeEvent(() =>
+        //{
+        //    m_Animator.SetBool("UsingRange", IsWeaponRange.Value);
+        //}, true);
 
         //TimeEnergy 초기값 및 최대값 정의, 0이 될 경우 사망처리
         TimeEnergy = new DataValue<float>(data.TimeEnergy_Max);
