@@ -12,50 +12,46 @@ public abstract class EnemyDamBase : MonoBehaviour
         manager = transform.parent.parent.GetComponent<EnemyController>();
     }
 
-    //경직인지 피격인지 판정
-    protected abstract bool IsDamOk();
-
-    protected virtual void DamEvent(float d)
+    //공격이 들어가는지 체크
+    protected virtual bool IsDamOk()
     {
-        if (IsDamOk())
+        return true;
+    }
+
+    protected virtual void DamEvent(int atkNum, Vector3 nor)
+    {
+        if (IsDamOk()) //피격판정
         {
-            Damage(d);
+            Damage(atkNum, nor); //피격 이벤트
         }
         else
         {
-            manager.GetAnimator().SetTrigger("Stop");
-            manager.ChangeStat(EnemyController.EStat.DAMAGE);
+            manager.GetAnimator().SetTrigger("Stop"); //경직 애니메이션 재생
+            //manager.ChangeStat(EnemyController.EStat.DAMAGE); //피격 상태로 변경
         }
     }
 
-    void Damage(float d)
+    void Damage(int d, Vector3 nor)
     {
-        manager.EnemyHp -= d;
+        //체력이 남아있을 경우에만 피격 판정
+        if (manager.EnemyHp>0)
+        {
+            manager.EnemyHp -= Data.data.MeleeAtk[d].Dmg; //데미지만큼 체력 차감
+            Debug.Log("[" + manager.name +  "] current hp : " + manager.EnemyHp);
 
-        //체력이 0 이하이면
-        if (manager.EnemyHp <= 0)
-        {
-            //사망 이벤트 호출
-            manager.OnDeadEvent();
-        }
-        else
-        {
-            if (! manager.GetSuperArmor())
+            //피격 가능 상태일 경우(막타이거나, 슈퍼아머가 아닐 경우)
+            if (manager.EnemyHp <= 0 || !manager.GetSuperArmor())
             {
-                manager.GetAnimator().SetTrigger("Dam");
-                manager.ChangeStat(EnemyController.EStat.DAMAGE);
+                manager.GetAnimator().SetTrigger("Dam"); //피격 애니메이션 재생
+                manager.ChangeStat(EnemyController.EStat.DAMAGE); //피격 상태로 변경
+                manager.OnKnockEvent(nor, d); //피격 시 넉백
             }
         }
     }
 
-    public void PlayDamEvent(float d)
+    public void PlayDamEvent(int atkNum, Vector3 nor)
     {
-        if (!manager.IsNotDam())
-            DamEvent(d);
-    }
-
-    protected virtual void EndDam()
-    {
-        manager.OnMoveEvent();
+        if (!manager.IsNotDam()) //무적상태가 아닐경우
+            DamEvent(atkNum, nor); //데미지 이벤트 실행
     }
 }

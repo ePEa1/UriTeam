@@ -21,15 +21,13 @@ public class Data : MonoBehaviour
     /// </summary>
     [System.Serializable] public struct ForceChargingTableStruct
     {
-        [SerializeField, LabelText("때린 수")] public int AtkValue;
-        [SerializeField, LabelText("넉백 세기")] public float KnockBackForce;
-        [SerializeField, LabelText("벽꿍시 데미지")] public int CollisionDmg;
+        [SerializeField, LabelText("넉백 유지시간")] public float KnockSpeed; //몇초동안 날아가게 할건지
+        [SerializeField, LabelText("넉백 세기")] public float KnockBackForce; //얼만큼 날려보낼건지
 
-        public ForceChargingTableStruct(int _atkValue, float _knockBackForce, int _collisionDmg)
+        public ForceChargingTableStruct(float _speedValue, float _knockBackForce)
         {
-            AtkValue = _atkValue;
+            KnockSpeed = _speedValue;
             KnockBackForce = _knockBackForce;
-            CollisionDmg = _collisionDmg;
         }
     }
     /// <summary>
@@ -67,7 +65,8 @@ public class Data : MonoBehaviour
 
     [Title("캐릭터 - 근접공격")]
     [SerializeField, LabelText("DamageTable")] public DamageTableStruct[] MeleeAtk;                         //콤보생각해서 합쳤음
-    [SerializeField, LabelText("ForceChargingTable")] public ForceChargingTableStruct[] ForceCharging;
+    [SerializeField, LabelText("넉백 세기")] public ForceChargingTableStruct[] ForceCharging;              //적용완료
+    [SerializeField, LabelText("넉백 커브")] public AnimationCurve forceCurve;                             //적용완료
 
     [Title("캐릭터 - 원거리공격")]
     [SerializeField, LabelText("최대 탄환수")] public int Bullet_Max = 10;                                   //적용완료 / 없길래 추가한것임
@@ -143,12 +142,13 @@ public class Data : MonoBehaviour
     {
         float knockback = 0;
 
+        /*
         for (int i = 0; i < ForceCharging.Length; ++i)
         {
             if (ForceCharging[i].AtkValue <= knockbackCount)
                 knockback = ForceCharging[i].KnockBackForce;
         }
-
+        */
         return knockback;
     }
     #endregion

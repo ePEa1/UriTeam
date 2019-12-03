@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class EnemyMoveBase : MonoBehaviour
 {
-    EnemyController manager;
+    protected EnemyController manager;
 
-    void Awake()
+    protected virtual void Awake()
     {
         manager = transform.parent.parent.GetComponent<EnemyController>();
     }
