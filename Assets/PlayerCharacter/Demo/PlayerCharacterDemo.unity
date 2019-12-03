@@ -7413,49 +7413,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Char_MoveSpd: 2
   Switching_ActiveTime: 1
-  Rolling_RollTime: 0.5
-  Rolling_ActiveTime: 0.7
+  Rolling_ActiveTime: 1
   Rolling_MsBetweenInvincible: 0.1
   Rolling_InvincibleActiveTime: 0.3
-  Rolling_MoveSpd: 5
+  Rolling_RollTime: 1
+  Rolling_MoveSpd: 6
   Rolling_Curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 7.0499997
-      outSlope: 7.0499997
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.041666668
-    - serializedVersion: 3
-      time: 0.09686451
-      value: 0.99326086
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0.29583332
     - serializedVersion: 3
-      time: 0.87017775
-      value: 0.7107231
-      inSlope: -1.4217778
-      outSlope: -1.4217778
-      tangentMode: 0
+      time: 0.7778761
+      value: 0.025149358
+      inSlope: -2.8769908
+      outSlope: -0.1132222
+      tangentMode: 65
       weightedMode: 0
-      inWeight: 0.16166522
+      inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -5.474586
-      outSlope: -5.474586
-      tangentMode: 34
+      inSlope: -0.1132222
+      outSlope: 0
+      tangentMode: 5
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.03333336
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -7524,6 +7515,7 @@ MonoBehaviour:
   ObjectTable:
   - ID: Fuel
     HP: 10
+    Damage: 0
   Key_SwitchWeapon: 113
   Key_MoveForward: 119
   Key_MoveLeft: 97
