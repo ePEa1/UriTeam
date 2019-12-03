@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 
 //CSV 사용하기 전에 임시로 사용할 클래스
 public class Data : MonoBehaviour
@@ -10,6 +11,8 @@ public class Data : MonoBehaviour
     /// </summary>
     [System.Serializable] public struct DamageTableStruct
     {
+        [SerializeField, LabelText("공격판정 시작시간(sec)")] public float TriggerTime;
+        [SerializeField, LabelText("공격판정 지속시간(sec)")] public float TriggerDur;
         [SerializeField, LabelText("캔슬가능 시작 시간(sec)")] public float ActiveTime;     //적용완료
         [SerializeField, LabelText("데미지")] public float Dmg;
     }
@@ -26,6 +29,15 @@ public class Data : MonoBehaviour
             KnockSpeed = _speedValue;
             KnockBackForce = _knockBackForce;
         }
+    }
+    /// <summary>
+    /// 오브젝트 테이블 구조체
+    /// </summary>
+    [System.Serializable] public struct ObjectTableStruct
+    {
+        [SerializeField, LabelText("ID")] public string ID;
+        [SerializeField, LabelText("HP")] public int HP;
+        [SerializeField, LabelText("Damage")] public int Damage;
     }
     #endregion
 
@@ -73,9 +85,13 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("선딜레이(sec)")] public float TimeStop_MsBetweenActive = 0.5f;                  //적용완료
     [SerializeField, LabelText("후딜레이(sec)")] public float TimeStop_MsBetweenEnd = 1.0f;                     //적용완료
     [SerializeField, LabelText("선/후딜레이 커브")] public AnimationCurve TimeStop_CurveBetween;               //적용완료 / 없길래 추가한것임
+    [SerializeField, LabelText("시간정지시 플레이어 시간배율")] public float TimeStop_PlayerTimeScale = 0.5f;    //적용완료
+
+    [Title("테이블")]
+    [SerializeField, LabelText("오브젝트 테이블")] public ObjectTableStruct[] ObjectTable;
 
     [Title("컨트롤")]
-    [SerializeField, LabelText("최대 시간에너지")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료
+    [SerializeField, LabelText("무기 스위칭")] public KeyCode Key_SwitchWeapon = KeyCode.Q;                //적용완료
     [SerializeField, LabelText("이동(앞쪽)")] public KeyCode Key_MoveForward = KeyCode.W;                       //적용완료
     [SerializeField, LabelText("이동(왼쪽)")] public KeyCode Key_MoveLeft = KeyCode.A;                          //적용완료
     [SerializeField, LabelText("이동(오른쪽)")] public KeyCode Key_MoveRight = KeyCode.D;                        //적용완료
@@ -83,6 +99,9 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("대쉬")] public KeyCode Key_Dash = KeyCode.LeftShift;                          //적용완료
     [SerializeField, LabelText("공격")] public KeyCode Key_Attack = KeyCode.Mouse0;                          //적용완료
     [SerializeField, LabelText("시간정지")] public KeyCode Key_TimeStop = KeyCode.Space;                          //적용완료
+    #endregion
+    #region Value
+    private Dictionary<string, ObjectTableStruct> m_ObjectTableDic = new Dictionary<string, ObjectTableStruct>();
     #endregion
 
     #region Event
@@ -92,9 +111,43 @@ public class Data : MonoBehaviour
         {
             data = this;
             DontDestroyOnLoad(gameObject);
+
+            //기타 초기화
+            for (int i = 0; i < ObjectTable.Length; ++i)
+                m_ObjectTableDic.Add(ObjectTable[i].ID, ObjectTable[i]);
         }
         else
             Destroy(gameObject);
+    }
+    #endregion
+    #region Function
+    /// <summary>
+    /// 해당 ID의 오브젝트 테이블 데이터를 가져옵니다.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public ObjectTableStruct GetObjectTable(string id)
+    {
+        if (m_ObjectTableDic.TryGetValue(id, out ObjectTableStruct value))
+            return value;
+        else
+            return new ObjectTableStruct();
+    }
+    /// <summary>
+    /// 공격 횟수에 따른 넉백값을 가져옵니다.
+    /// </summary>
+    /// <returns></returns>
+    public float GetKnockForce(int knockbackCount)
+    {
+        float knockback = 0;
+
+        for (int i = 0; i < ForceCharging.Length; ++i)
+        {
+            if (ForceCharging[i].AtkValue <= knockbackCount)
+                knockback = ForceCharging[i].KnockBackForce;
+        }
+
+        return knockback;
     }
     #endregion
 }
