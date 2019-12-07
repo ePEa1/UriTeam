@@ -48,7 +48,7 @@
 		cull back
 
 		CGPROGRAM
-		#pragma surface surf Toon
+		#pragma surface surf Lambert
 		#pragma target 3.0
 
 		float4 _Color;
@@ -74,28 +74,27 @@
 			fixed4 d = tex2D(_LitTex, IN.uv_LitTex);
 
 			//ToonShader term
-			//float diffColor;
-			/*float ndotl = dot (IN.lightDir , o.Normal);
+			float ndotl = dot (IN.lightDir , o.Normal);
 
-			float3 toon = step ( ndotl * (1 - _Color2), d.g ) * 0.5 + 0.5;*/
+			float3 toon = step ( ndotl * (1 - _Color2), d.g ) * 0.5 + 0.5;
 
-			//diffColor = c.rgb * ndotl * _LightColor0.rgb;// * atten
+			float3 diffColor = c.rgb * toon; //* _LightColor0.rgb;// * atten
 
-			o.Albedo = c.rgb;
+			o.Albedo = diffColor;
 			o.Alpha = c.a;
         }
 
-		float4 LightingToon (SurfaceOutput s, float3 lightDir, float3 viewDir, float atten)
-		{
-			//ToonShader term
-			float diffColor;
-			float ndotl = dot(lightDir, s.Normal);
+		//float4 LightingToon (SurfaceOutput s, float3 lightDir, float3 viewDir, float atten)
+		//{
+		//	//ToonShader term
+		//	float diffColor;
+		//	float ndotl = dot(lightDir, s.Normal);
 
-			float3 toon = step (ndotl * (1 - _Color2), 0.5) * 0.5 + 0.5;
+		//	float3 toon = step (ndotl * (1 - _Color2), 0.5) * 0.5 + 0.5;
 
-			diffColor = s.Albedo * ndotl * _LightColor0.rgb * atten ;
-			return float4(s.Albedo, s.Alpha);
-		}
+		//	diffColor = s.Albedo * ndotl * _LightColor0.rgb * atten ;
+		//	return float4(s.Albedo, s.Alpha);
+		//}
 
         ENDCG
 
