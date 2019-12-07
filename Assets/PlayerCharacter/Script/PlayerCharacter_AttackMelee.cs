@@ -12,7 +12,7 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
     private bool m_IsTriggered;
     private float m_TriggerTimer;
     private bool m_IsMeleeAttackEnd;                        //근접공격 애니메이션이 끝났는지  (끝나면 바로 다시 Default로 돌아감)
-    private int m_ComboIndex;
+    public int m_ComboIndex;
     #endregion
 
     #region Event
@@ -88,6 +88,7 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
         PlayerCharacterControl control = CurrentCharacter.CurrentControl as PlayerCharacterControl;
 
         m_ComboIndex = (m_ComboIndex + 1) % data.MeleeAtk.Length;
+        player.AttackTrigger.SetAtkIndex(m_ComboIndex);
         CurrentAni.PlayAnimation($"Attack_Melee_{m_ComboIndex}", true);
         m_IsTriggered = false;
         m_Timer = 0;

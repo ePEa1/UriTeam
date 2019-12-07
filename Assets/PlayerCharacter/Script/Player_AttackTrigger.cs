@@ -25,23 +25,15 @@ public class AttackTriggerUtil
             damTrans = enemyController.transform;
             return;
         }
-
-        //AttackableObject
-        AttackableObject attackableObj = other.GetComponentInParent<AttackableObject>();
-        iDamage = attackableObj as IDamage;
-        if (iDamage != null)
-        {
-            damObject = attackableObj;
-            damTrans = attackableObj.transform;
-            return;
-        }
     }
 }
 
 public class Player_AttackTrigger : MonoBehaviour
 {
+    int atkIndex = 0;
+
     #region Get,Set
-    public Action<Transform, MonoBehaviour, IDamage, float> onTargetTriggered;
+    public Action<Transform, MonoBehaviour, IDamage, int> onTargetTriggered;
     #endregion
     #region Value
     private float m_Damage;
@@ -65,10 +57,15 @@ public class Player_AttackTrigger : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void SetAtkIndex(int ind)
+    {
+        atkIndex = ind;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         AttackTriggerUtil.GetDamageComponent(other, out MonoBehaviour damObject, out Transform damTrans, out IDamage iDamage);
-        onTargetTriggered.Invoke(damTrans, damObject, iDamage, m_Damage);
+        onTargetTriggered.Invoke(damTrans, damObject, iDamage, atkIndex);
     }
     #endregion
     #region Function

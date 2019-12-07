@@ -40,9 +40,33 @@ namespace ePEaCostomFunction
         /// <returns></returns>
         public static Quaternion PointDirection(Vector3 center, Vector3 target)
         {
-            Vector3 vecDir = (target - center).normalized;
+            Vector3 vecDir =(target - center).normalized;
+
+            vecDir.y = 0;
 
             return Quaternion.LookRotation(vecDir);
+        }
+
+        /// <summary>
+        /// 두 벡터 사이 노멀값 반환
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="target"></param>
+        /// <param name="isInY"></param>
+        /// <returns></returns>
+        public static Vector3 PointNormalize(Vector3 center, Vector3 target, bool isInY)
+        {
+            Vector3 nor = (target - center).normalized;
+            if (!isInY) nor.y = 0;
+
+            return nor;
+        }
+
+        public static Vector3 PointNormalize(Vector3 center, Vector3 target)
+        {
+            Vector3 nor = (target - center).normalized;
+            nor.y = 0;
+            return nor;
         }
     }
 }

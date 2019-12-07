@@ -30,6 +30,10 @@ public abstract class PlayerCharacter_ActionBase : CharacterAction
             return player.AttackMeleeAction;
         }
 
+        //TODO : 특정 키 입력시 패링되도록 한다.
+        if (false)
+            return player.ParryAction;
+
         //Switch Weapon
         //if (control.SwitchWeapon)
         //    return player.SwitchAction;

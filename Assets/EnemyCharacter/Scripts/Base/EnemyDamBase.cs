@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public abstract class EnemyDamBase : MonoBehaviour
 {
     EnemyController manager;
+
+    [SerializeField, LabelText("넉백 수치")] float kn = 0.0f;
 
     // Start is called before the first frame update
     void Awake()

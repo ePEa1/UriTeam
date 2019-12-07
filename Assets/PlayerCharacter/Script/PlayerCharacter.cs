@@ -23,6 +23,7 @@ public class PlayerCharacter : Character, IDamage
     [SerializeField] public PlayerCharacter_Switch SwitchAction;
     [SerializeField] public PlayerCharacter_AttackRange AttackRangeAction;
     [SerializeField] public PlayerCharacter_AttackMelee AttackMeleeAction;
+    [SerializeField] public PlayerCharacter_Parry ParryAction;
 
     //얘도 귀찮아서
     [SerializeField] public Player_AttackTrigger AttackTrigger;
@@ -231,7 +232,7 @@ public class PlayerCharacter : Character, IDamage
 
         //AttackTrigger 트리거 이벤트 정의
         AttackTrigger.Disable();
-        AttackTrigger.onTargetTriggered += (Transform damTrans, MonoBehaviour damObject, IDamage iDamage, float damage) =>
+        AttackTrigger.onTargetTriggered += (Transform damTrans, MonoBehaviour damObject, IDamage iDamage, int ind) =>
         {
             if (iDamage != null && damObject.GetComponent<PlayerCharacter>() == null)
             {
@@ -239,7 +240,7 @@ public class PlayerCharacter : Character, IDamage
                 vec.y = 0;
                 vec.Normalize();
 
-                iDamage?.OnDamEvent((int)damage, vec);
+                iDamage?.OnDamEvent(ind, vec);
             }
         };
 
@@ -298,6 +299,9 @@ public class PlayerCharacter : Character, IDamage
     //IDamage Event
     public void OnDamEvent(int atkNum, Vector3 nor)
     {
+        //if (GetAction(0) == ParryAction && 패링진행중인가)
+        //    return;
+
         TimeEnergy.Value -= atkNum;
     }
     #endregion

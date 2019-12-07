@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using Sirenix.OdinInspector;
+using ePEaCostomFunction;
 
 public class EShieldMove : EnemyMoveBase
 {
@@ -12,14 +12,11 @@ public class EShieldMove : EnemyMoveBase
 
     float targetDis; //타겟과의 거리
 
-    NavMeshAgent nav;
-
     protected override void Awake()
     {
         base.Awake();
 
         target = GameObject.FindWithTag(targetTag);
-        nav = manager.GetComponent<NavMeshAgent>();
     }
 
     void Update()
@@ -29,11 +26,8 @@ public class EShieldMove : EnemyMoveBase
 
         if (manager.GetStat() == EnemyController.EStat.MOVE) //이동 상태일 경우
         {
-            nav.isStopped = false; //네비 작동
-        }
-        else //다른 상태면
-        {
-            nav.isStopped = true; //네비 끄기
+            //캐릭터 방향으로 시선 고정
+            manager.transform.rotation = CostomFunctions.PointDirection(manager.transform.position, target.transform.position); //타겟 방향으로 회전
         }
     }
 
@@ -41,7 +35,7 @@ public class EShieldMove : EnemyMoveBase
     {
         if (target != null) // 타겟이 있으면
         {
-            if (manager.IsDelayOk())
+            if (manager.IsDelayOk()) //공격 가능 상태면
             {
                 if (manager.GetAtkRad() >= targetDis) //공격사거리 안에 들어가있으면
                 {
@@ -49,22 +43,27 @@ public class EShieldMove : EnemyMoveBase
                 }
                 else if (rushRad >= targetDis) //그렇지 않고 접근 범위 안에 위치시
                 {
-                    nav.speed = rushSpeed; //접근속도로
-                    nav.SetDestination(target.transform.position); //타겟에게 이동
+                    Debug.Log("[" + manager.name + "] Atk Rush");
+
+                    //접근 속도로 캐릭터에게 이동
+                    manager.transform.position += CostomFunctions.PointNormalize(manager.transform.position, target.transform.position) * rushSpeed * Time.deltaTime;
                 }
             }
-            else
+            else //공격 불가 상태면
             {
                 if (runRad <= targetDis && rushRad >= targetDis) //도망 범위 밖이면서 접근 범위 안에 있을 경우
                 {
-                    nav.speed = rushSpeed; //접근속도로
-                    nav.SetDestination(target.transform.position); //타겟위치를 목표지점으로 이동
+                    Debug.Log("[" + manager.name + "] Rush");
+
+                    //접근 속도로 캐릭터에게 이동
+                    manager.transform.position += CostomFunctions.PointNormalize(manager.transform.position, target.transform.position) * rushSpeed * Time.deltaTime;
                 }
                 else if (rushRad > targetDis)
                 {
-                    nav.speed = runSpeed; //도망속도로
-                    nav.SetDestination(manager.transform.position -
-                        (target.transform.position - manager.transform.position).normalized * runSpeed); //타겟위치의 반대방향으로 이동
+                    Debug.Log("[" + manager.name + "] Run");
+
+                    //도망속도로 캐릭터 반대방향으로 이동
+                    manager.transform.position += -CostomFunctions.PointNormalize(manager.transform.position, target.transform.position) * runSpeed * Time.deltaTime;
                 }
             }
         }
