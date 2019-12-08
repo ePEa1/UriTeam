@@ -14,6 +14,8 @@ public class Data : MonoBehaviour
         [SerializeField, LabelText("공격판정 시작시간(sec)")] public float TriggerTime;
         [SerializeField, LabelText("공격판정 지속시간(sec)")] public float TriggerDur;
         [SerializeField, LabelText("캔슬가능 시작 시간(sec)")] public float ActiveTime;     //적용완료
+        [SerializeField, LabelText("공격 이동 거리")] public float AtkMove;
+        [SerializeField, LabelText("공격 이동 속도")] public float AtkMoveSpeed;
         [SerializeField, LabelText("데미지")] public float Dmg;
     }
     /// <summary>
@@ -99,7 +101,7 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("이동(뒤쪽)")] public KeyCode Key_MoveBack = KeyCode.S;                          //적용완료
     [SerializeField, LabelText("대쉬")] public KeyCode Key_Dash = KeyCode.LeftShift;                          //적용완료
     [SerializeField, LabelText("공격")] public KeyCode Key_Attack = KeyCode.Mouse0;                          //적용완료
-    //[SerializeField, LabelText("원거리")] public KeyCode Key_Range = KeyCode.Mouse1;                          //적용완료
+    [SerializeField, LabelText("패링/추격타")] public KeyCode Key_Range = KeyCode.Mouse1;                          //적용완료
     [SerializeField, LabelText("시간정지")] public KeyCode Key_TimeStop = KeyCode.Space;                          //적용완료
     #endregion
     #region Value

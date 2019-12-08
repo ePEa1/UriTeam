@@ -101,6 +101,7 @@ public class EnemyController : MonoBehaviour, IDamage
     //이동 이벤트
     public void OnMoveEvent()
     {
+        Debug.Log("MoveStart");
         compMove.PlayMoveEvent();
     }
 

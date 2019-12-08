@@ -16,14 +16,17 @@ public class AttackTriggerUtil
         damTrans = null;
         iDamage = null;
 
-        //EnemyController
-        EnemyController enemyController = other.GetComponentInParent<EnemyController>();
-        iDamage = enemyController as IDamage;
-        if (iDamage != null)
+        if (other.tag =="DamTrigger")
         {
-            damObject = enemyController;
-            damTrans = enemyController.transform;
-            return;
+            //EnemyController
+            EnemyController enemyController = other.GetComponentInParent<EnemyController>();
+            iDamage = enemyController as IDamage;
+            if (iDamage != null)
+            {
+                damObject = enemyController;
+                damTrans = enemyController.transform;
+                return;
+            }
         }
     }
 }

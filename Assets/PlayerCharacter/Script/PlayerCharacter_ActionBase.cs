@@ -38,12 +38,13 @@ public abstract class PlayerCharacter_ActionBase : CharacterAction
         //if (control.SwitchWeapon)
         //    return player.SwitchAction;
 
+        //Dash
+        if (control.Dash)
+            return player.DashAction;
+
         //Dash, Default
         if (0.1f < control.Move.magnitude)
         {
-            if (control.Dash)
-                return player.DashAction;
-            else
                 return player.DefaultAction;
         }
 

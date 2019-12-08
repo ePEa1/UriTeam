@@ -57,9 +57,14 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
                 return this;
             }
 
-            //대쉬로 캔슬 가능
-            if (0.1f < control.Move.magnitude && control.Dash)
-                return player.DashAction;
+
+        }
+
+        //대쉬로 캔슬 가능
+        if (0.1f < control.Move.magnitude && control.Dash)
+        {
+            player.AttackTrigger.Disable();
+            return player.DashAction;
         }
 
         //공격 애니메이션이 끝났으면 끝...
@@ -97,4 +102,20 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
             player.SetLookVector(control.AttackDirection, true);
     }
     #endregion
+
+    IEnumerator AttackDash(int atkNum)
+    {
+        float t = 0.0f;
+
+        Vector3 originVec = CurrentCharacter.transform.position;
+
+        while(t+Time.deltaTime<data.MeleeAtk[atkNum].AtkMoveSpeed)
+        {
+
+        }
+
+
+
+        yield return true;
+    }
 }

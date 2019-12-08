@@ -43,7 +43,7 @@ public class EShieldMove : EnemyMoveBase
                 }
                 else if (rushRad >= targetDis) //그렇지 않고 접근 범위 안에 위치시
                 {
-                    Debug.Log("[" + manager.name + "] Atk Rush");
+                    //Debug.Log("[" + manager.name + "] Atk Rush");
 
                     //접근 속도로 캐릭터에게 이동
                     manager.transform.position += CostomFunctions.PointNormalize(manager.transform.position, target.transform.position) * rushSpeed * Time.deltaTime;
@@ -53,14 +53,14 @@ public class EShieldMove : EnemyMoveBase
             {
                 if (runRad <= targetDis && rushRad >= targetDis) //도망 범위 밖이면서 접근 범위 안에 있을 경우
                 {
-                    Debug.Log("[" + manager.name + "] Rush");
+                    //Debug.Log("[" + manager.name + "] Rush");
 
                     //접근 속도로 캐릭터에게 이동
                     manager.transform.position += CostomFunctions.PointNormalize(manager.transform.position, target.transform.position) * rushSpeed * Time.deltaTime;
                 }
                 else if (rushRad > targetDis)
                 {
-                    Debug.Log("[" + manager.name + "] Run");
+                    //Debug.Log("[" + manager.name + "] Run");
 
                     //도망속도로 캐릭터 반대방향으로 이동
                     manager.transform.position += -CostomFunctions.PointNormalize(manager.transform.position, target.transform.position) * runSpeed * Time.deltaTime;
