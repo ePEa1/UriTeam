@@ -30,7 +30,7 @@
 
 		float4 LightingChange(SurfaceOutput s, float3 lightDir, float atten)
 		{
-			return float4 (0, 0, 0, 0);
+			return float4 (s.Albedo, s.Alpha) * atten;
 		}
 
         ENDCG
@@ -55,7 +55,7 @@
 		void surf(Input IN, inout SurfaceOutputStandard o)
 		{
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb * c.rgb * c.rgb;
+			o.Albedo = c.rgb;
 			o.Alpha = _Trans;
 		}
 
