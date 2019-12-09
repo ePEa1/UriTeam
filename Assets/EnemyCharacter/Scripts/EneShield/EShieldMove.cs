@@ -37,17 +37,19 @@ public class EShieldMove : EnemyMoveBase
         {
             if (manager.IsDelayOk()) //공격 가능 상태면
             {
-                if (manager.GetAtkRad() >= targetDis) //공격사거리 안에 들어가있으면
-                {
-                    manager.OnAtkEvent(); //공격 이벤트 발생
+                //if (manager.GetAtkRad() >= targetDis) //공격사거리 안에 들어가있으면
+                //{
+                //    manager.OnAtkEvent(); //공격 이벤트 발생
 
-                }
-                else if (rushRad >= targetDis) //그렇지 않고 접근 범위 안에 위치시
+                //}
+                if (rushRad >= targetDis && targetDis > manager.GetAtkRad() * 0.8f) //그렇지 않고 접근 범위 안에 위치시
                 {
                     //Debug.Log("[" + manager.name + "] Atk Rush");
 
                     //접근 속도로 캐릭터에게 이동
-                    manager.transform.position += CostomFunctions.PointNormalize(manager.transform.position, target.transform.position) * rushSpeed * Time.deltaTime;
+                    manager.transform.rotation = CostomFunctions.PointDirection(manager.transform.position, target.transform.position);
+                    //manager.transform.position += CostomFunctions.PointNormalize(manager.transform.position, target.transform.position) * rushSpeed * Time.deltaTime;
+                    manager.transform.Translate(new Vector3(0.0f, 0.0f, rushSpeed * Time.deltaTime));
                 }
             }
             else //공격 불가 상태면

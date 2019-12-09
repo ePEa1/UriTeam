@@ -17,6 +17,8 @@ public class EShieldAtk : EnemyAtkBase
     {
         nowAtkTime = atkTime; //공격 유지시간 초기화
         isAtking = true; //공격 콜라이더 활성화
+        if (manager.curAtkType == EnemyController.EAtkType.LONG)
+            manager.hitBox.SetActive(false);
     }
 
     protected override void Update()
@@ -48,6 +50,7 @@ public class EShieldAtk : EnemyAtkBase
                 manager.isTarget = true;
                 manager.nowTargetTime = manager.targetTime;
                 manager.nowGrogiTime = manager.grogiTime;
+                pc.rushReady = true;
                 manager.SetSuperArmor(false);
                 manager.OnKnockEvent(CostomFunctions.PointNormalize(manager.transform.position, target.transform.position), 0);
             }

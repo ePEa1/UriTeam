@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - DamTrigger
   - Enemy
+  - ClearManager
   layers:
   - Default
   - TransparentFX

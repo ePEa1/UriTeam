@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour, IDamage
     #region Values
 
     [Title("속성값")]
-    [SerializeField, TabGroup("Option"), LabelText("근접 / 원거리")] EAtkType curAtkType; //공격 타입
+    [SerializeField, TabGroup("Option"), LabelText("근접 / 원거리")] public EAtkType curAtkType; //공격 타입
     [SerializeField, TabGroup("Option"), LabelText("생성 시 상태")] EStat startStat; //생성 시 상태
 
     [Title("전투 능력치")]
@@ -63,8 +63,8 @@ public class EnemyController : MonoBehaviour, IDamage
     [SerializeField, TabGroup("Component"), LabelText("시선")] EnemyViewBase compView; //적 시선 구현 컴포넌트
     [SerializeField, TabGroup("Component"), LabelText("애니메이션")] Animator animator; //적 애니메이션 컨트롤러
 
-    float Enemy_NowAtkCool; //현재 공격 쿨타임
-    float Enemy_NowAtkCheck;
+    public float Enemy_NowAtkCool; //현재 공격 쿨타임
+    public float Enemy_NowAtkCheck;
 
     bool IsKnockback = false; //넉백중인가
 
@@ -78,6 +78,7 @@ public class EnemyController : MonoBehaviour, IDamage
     public float nowGrogiTime = 0.0f;
 
     public GameObject targetUI;
+    public GameObject hitBox;
 
     EStat nowStat = EStat.CREATE; //현재 몬스터 상태
 
@@ -149,6 +150,11 @@ public class EnemyController : MonoBehaviour, IDamage
             targetUI.SetActive(false);
         }
 
+        if (!GameObject.FindWithTag("Player").GetComponent<PlayerCharacter>().rushReady)
+        {
+            targetUI.SetActive(false);
+        }
+
         if (nowGrogiTime > 0)
         {
             nowGrogiTime -= Time.deltaTime;
@@ -176,8 +182,10 @@ public class EnemyController : MonoBehaviour, IDamage
 
                 if (Enemy_NowAtkCheck<=0)
                 {
+                    float targetDis = Vector3.Distance(transform.position, GameObject.FindWithTag("Player").transform.position);
+
                     //공격 가능하면 공격이벤트 발생
-                    if (Enemy_NowAtkCool <= 0 && EnemyView_AtkRad >= 10.0f)
+                    if (Enemy_NowAtkCool <= 0 && EnemyView_AtkRad >= targetDis)
                     {
                         Enemy_NowAtkCool = Enemy_AtkCoolDown;
                         Debug.Log(Enemy_NowAtkCool);

@@ -25,6 +25,9 @@ public class EnemyDeadBase : MonoBehaviour
 
     public void PlayDeadEvent()
     {
+        if (manager.curAtkType == EnemyController.EAtkType.LONG)
+            manager.hitBox.SetActive(false);
         DeadEvent();
+        GameObject.FindWithTag("ClearManager").GetComponent<ClearCheck>().enemyCount--;
     }
 }

@@ -71,13 +71,23 @@ public class PlayerCharacterControl : CharacterControl
         }
     }
     /// <summary>
-    /// 패링 / 추격타 (마우스 오른쪽버튼)
+    /// 패링 (마우스 오른쪽버튼)
     /// </summary>
     public bool Parry
     {
         get
         {
             return Input.GetKeyDown(data.Key_Parry);
+        }
+    }
+    /// <summary>
+    /// 추격타 (E)
+    /// </summary>
+    public bool Rush
+    {
+        get
+        {
+            return Input.GetKeyDown(data.Key_Rush);
         }
     }
     /// <summary>

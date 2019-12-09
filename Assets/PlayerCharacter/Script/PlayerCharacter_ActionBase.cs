@@ -34,6 +34,11 @@ public abstract class PlayerCharacter_ActionBase : CharacterAction
         if (control.Parry && player.ParryOk())
             return player.ParryAction;
 
+        if (control.Rush && player.RushOk())
+        {
+            return player.RushAction;
+        }
+
         //Switch Weapon
         //if (control.SwitchWeapon)
         //    return player.SwitchAction;

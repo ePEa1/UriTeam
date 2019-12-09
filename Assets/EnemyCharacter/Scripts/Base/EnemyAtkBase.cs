@@ -55,6 +55,8 @@ public abstract class EnemyAtkBase : MonoBehaviour
     //실제 공격 구현부
     protected virtual void AtkEvent()
     {
+        if (manager.curAtkType == EnemyController.EAtkType.LONG)
+            manager.hitBox.SetActive(true);
         nowAtk = false;
         nowEnd = false;
         nowAT = at;

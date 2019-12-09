@@ -8,4 +8,14 @@ AnimatorOverrideController:
   m_PrefabAsset: {fileID: 0}
   m_Name: EnemyShot
   m_Controller: {fileID: 9100000, guid: 6e8d190ad7288784d8ea58ecbe81048f, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8c07f431a84749a48994972784fb698a, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 8c07f431a84749a48994972784fb698a, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: d9c243d3bac38b84cb33b145e7044fe8, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: df5e5ebdbb69a654bb8e3c48b69b3aba, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 4d9b34174ba14514090e0cc4ad994d27, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 4d9b34174ba14514090e0cc4ad994d27, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 99153a6eb7c503f4f842a5633f5d2a4f, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 99153a6eb7c503f4f842a5633f5d2a4f, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: abf02358954eb1b4aa5ef1c5614960d9, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: abf02358954eb1b4aa5ef1c5614960d9, type: 3}

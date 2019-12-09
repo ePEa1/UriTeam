@@ -25,6 +25,7 @@ public class PlayerCharacter : Character, IDamage
     [SerializeField] public PlayerCharacter_AttackRange AttackRangeAction;
     [SerializeField] public PlayerCharacter_AttackMelee AttackMeleeAction;
     [SerializeField] public PlayerCharacter_Parry ParryAction;
+    [SerializeField] public PlayerCharacter_Rush RushAction;
 
     //얘도 귀찮아서
     [SerializeField] public Player_AttackTrigger AttackTrigger;
@@ -142,6 +143,7 @@ public class PlayerCharacter : Character, IDamage
     public float coolParry = 0.0f;
     public EnemyController target = null;
     public bool nowParry = false;
+    public bool rushReady = false;
     #endregion
 
     #region Event
@@ -328,7 +330,7 @@ public class PlayerCharacter : Character, IDamage
     //Public
     public bool DashOk() { return coolDash <= 0; }
     public bool ParryOk() { return coolParry <= 0; }
-    public bool RushOk() { return target != null; }
+    public bool RushOk() { return target != null && rushReady; }
     /// <summary>
     /// 캐릭터가 보는 방향을 설정합니다.
     /// </summary>

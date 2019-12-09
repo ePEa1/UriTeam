@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using ePEaCostomFunction;
 using static Data;
 
 public class PlayerCharacter_Parry : PlayerCharacter_ActionBase
@@ -34,6 +35,8 @@ public class PlayerCharacter_Parry : PlayerCharacter_ActionBase
 
     protected override CharacterAction OnUpdateAction()
     {
+        PlayerCharacterControl control = CurrentCharacter.CurrentControl as PlayerCharacterControl;
+
         nowTime += Time.deltaTime;
 
         if (nowTime >= parryTime)
@@ -41,6 +44,9 @@ public class PlayerCharacter_Parry : PlayerCharacter_ActionBase
             player.nowParry = false;
             Debug.Log("Parry end");
         }
+
+        if (control.Rush && player.RushOk())
+            return player.RushAction;
             
 
         if (nowTime >= endTime)

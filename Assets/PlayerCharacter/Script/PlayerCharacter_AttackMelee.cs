@@ -82,6 +82,11 @@ public class PlayerCharacter_AttackMelee : PlayerCharacter_ActionBase
             return player.ParryAction;
         }
 
+        if (control.Rush && player.RushOk())
+        {
+            return player.RushAction;
+        }
+
         //공격 애니메이션이 끝났으면 끝...
         if (m_IsMeleeAttackEnd)
             return player.DefaultAction;

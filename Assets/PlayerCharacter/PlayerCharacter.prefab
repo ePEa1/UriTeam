@@ -74,6 +74,51 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!1 &922420698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 922420699}
+  - component: {fileID: 922420700}
+  m_Layer: 0
+  m_Name: Rush
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &922420699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922420698}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 363421955428549171}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &922420700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922420698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0c7dabab5740c945a63c7a1f0ab646c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DefaultAniID: Attack_Melee_2
+  endTime: 0.4
 --- !u!1 &1939986822
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,8 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DefaultAniID: Attack_Melee_1
-  parryTime: 0
-  endTime: 0.35
+  parryTime: 0.35
+  endTime: 0.45
   PEff: {fileID: 595914496910144644}
 --- !u!1 &363421954639257577
 GameObject:
@@ -411,6 +456,7 @@ MonoBehaviour:
   AttackRangeAction: {fileID: 363421954717223535}
   AttackMeleeAction: {fileID: 363421954665975486}
   ParryAction: {fileID: 1939986824}
+  RushAction: {fileID: 922420700}
   AttackTrigger: {fileID: 1280802702794216903}
   m_IsAutoInit: 1
   m_LookVectorChangeSpeed: 720
@@ -418,6 +464,7 @@ MonoBehaviour:
   coolParry: 0
   target: {fileID: 0}
   nowParry: 0
+  rushReady: 0
 --- !u!143 &2820398073729608393
 CharacterController:
   m_ObjectHideFlags: 0
@@ -560,6 +607,7 @@ Transform:
   - {fileID: 363421954665975487}
   - {fileID: 363421954867278056}
   - {fileID: 1939986823}
+  - {fileID: 922420699}
   m_Father: {fileID: 363421955302217420}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1402,12 +1450,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17003f43a5cd05949a1d47e2557bccbb, type: 3}
---- !u!1 &5991686981542603390 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: 17003f43a5cd05949a1d47e2557bccbb,
-    type: 3}
-  m_PrefabInstance: {fileID: 5991686981542505694}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5991686981542377054 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 17003f43a5cd05949a1d47e2557bccbb,
@@ -1417,6 +1459,12 @@ Transform:
 --- !u!95 &5991686981551954366 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 17003f43a5cd05949a1d47e2557bccbb,
+    type: 3}
+  m_PrefabInstance: {fileID: 5991686981542505694}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5991686981542603390 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 17003f43a5cd05949a1d47e2557bccbb,
     type: 3}
   m_PrefabInstance: {fileID: 5991686981542505694}
   m_PrefabAsset: {fileID: 0}
