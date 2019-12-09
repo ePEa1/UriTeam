@@ -45,7 +45,6 @@ public abstract class EnemyDamBase : MonoBehaviour
             //피격 가능 상태일 경우(막타이거나, 슈퍼아머가 아닐 경우)
             if (manager.EnemyHp <= 0 || !manager.GetSuperArmor())
             {
-                manager.GetAnimator().SetTrigger("Dam"); //피격 애니메이션 재생
                 manager.ChangeStat(EnemyController.EStat.DAMAGE); //피격 상태로 변경
                 manager.OnKnockEvent(nor, d); //피격 시 넉백
             }

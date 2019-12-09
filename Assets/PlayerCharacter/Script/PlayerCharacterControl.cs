@@ -71,6 +71,16 @@ public class PlayerCharacterControl : CharacterControl
         }
     }
     /// <summary>
+    /// 패링 / 추격타 (마우스 오른쪽버튼)
+    /// </summary>
+    public bool Parry
+    {
+        get
+        {
+            return Input.GetKeyDown(data.Key_Parry);
+        }
+    }
+    /// <summary>
     /// 공격 방향 (플레이어에 상대적인 커서 위치)
     /// </summary>
     public Vector2 AttackDirection

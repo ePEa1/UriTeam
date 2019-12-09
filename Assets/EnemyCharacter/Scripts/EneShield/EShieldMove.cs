@@ -40,6 +40,7 @@ public class EShieldMove : EnemyMoveBase
                 if (manager.GetAtkRad() >= targetDis) //공격사거리 안에 들어가있으면
                 {
                     manager.OnAtkEvent(); //공격 이벤트 발생
+
                 }
                 else if (rushRad >= targetDis) //그렇지 않고 접근 범위 안에 위치시
                 {

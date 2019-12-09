@@ -65,6 +65,8 @@ public class EnemyKnockBase : MonoBehaviour
         //맞은 타수에 따라 넉백 데이터 설정
         SetKnockData(atkNum);
 
+        manager.GetAnimator().SetTrigger("Dam"); //피격 애니메이션 재생
+
         //넉백 구현부
         KnockEvent();
     }

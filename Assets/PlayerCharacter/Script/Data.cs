@@ -52,6 +52,8 @@ public class Data : MonoBehaviour
     //귀찮아서 인스펙터 변수 public으로 직접 가져가서 사용하도록 만들었음, 외부에서 값 수정하면 찾아내서 없애버릴것임
     [Title("캐릭터 - 기본")]
     [SerializeField, LabelText("캐릭터 이동속도(m/s)")] public float Char_MoveSpd = 1.5f;                      //적용완료
+    [SerializeField, LabelText("회피 재사용 대기시간(sec)")] public float Cool_Dash = 1.0f;
+    [SerializeField, LabelText("패링 재사용 대기시간(sec)")] public float Cool_Parry = 2.0f;
 
     [Title("캐릭터 - 무기스위칭")]
     [SerializeField, LabelText("캔슬가능 시작 시간(sec)")] public float Switching_ActiveTime = 1.0f;        //적용완료
@@ -101,8 +103,10 @@ public class Data : MonoBehaviour
     [SerializeField, LabelText("이동(뒤쪽)")] public KeyCode Key_MoveBack = KeyCode.S;                          //적용완료
     [SerializeField, LabelText("대쉬")] public KeyCode Key_Dash = KeyCode.LeftShift;                          //적용완료
     [SerializeField, LabelText("공격")] public KeyCode Key_Attack = KeyCode.Mouse0;                          //적용완료
-    [SerializeField, LabelText("패링/추격타")] public KeyCode Key_Range = KeyCode.Mouse1;                          //적용완료
+    [SerializeField, LabelText("패링")] public KeyCode Key_Parry = KeyCode.Mouse1;
+    [SerializeField, LabelText("추격타")] public KeyCode Key_Rush = KeyCode.E;                            //적용완료
     [SerializeField, LabelText("시간정지")] public KeyCode Key_TimeStop = KeyCode.Space;                          //적용완료
+    [SerializeField, LabelText("추격타 에임 보정 수치")] public float maxNear;
     #endregion
     #region Value
     private Dictionary<string, ObjectTableStruct> m_ObjectTableDic = new Dictionary<string, ObjectTableStruct>();

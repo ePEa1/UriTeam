@@ -36,10 +36,11 @@ public class Player_AttackTrigger : MonoBehaviour
     int atkIndex = 0;
 
     #region Get,Set
-    public Action<Transform, MonoBehaviour, IDamage, int> onTargetTriggered;
+    public Action<Transform, MonoBehaviour, IDamage, int, Vector3> onTargetTriggered;
     #endregion
     #region Value
     private float m_Damage;
+    Vector3 m_Nor = Vector3.zero;
     #endregion
 
     #region Event
@@ -65,10 +66,15 @@ public class Player_AttackTrigger : MonoBehaviour
         atkIndex = ind;
     }
 
+    public void SetAtkNormalize(Vector3 nor)
+    {
+        m_Nor = nor;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         AttackTriggerUtil.GetDamageComponent(other, out MonoBehaviour damObject, out Transform damTrans, out IDamage iDamage);
-        onTargetTriggered.Invoke(damTrans, damObject, iDamage, atkIndex);
+        onTargetTriggered.Invoke(damTrans, damObject, iDamage, atkIndex, m_Nor);
     }
     #endregion
     #region Function

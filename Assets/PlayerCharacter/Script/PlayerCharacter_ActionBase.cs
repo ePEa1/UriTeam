@@ -31,7 +31,7 @@ public abstract class PlayerCharacter_ActionBase : CharacterAction
         }
 
         //TODO : 특정 키 입력시 패링되도록 한다.
-        if (false)
+        if (control.Parry && player.ParryOk())
             return player.ParryAction;
 
         //Switch Weapon
@@ -39,7 +39,7 @@ public abstract class PlayerCharacter_ActionBase : CharacterAction
         //    return player.SwitchAction;
 
         //Dash
-        if (control.Dash)
+        if (control.Dash && player.DashOk())
             return player.DashAction;
 
         //Dash, Default

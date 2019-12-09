@@ -28,6 +28,8 @@ public class PlayerCharacter_Dash : PlayerCharacter_ActionBase
         m_IsDashEnd = false;
         m_IsDashStarted = false;
 
+        player.coolDash = Data.data.Cool_Dash;
+
         //플레이어를 해당 위치를 보도록 만들기
         player.SetLookVector(m_DashDirection, true);
 

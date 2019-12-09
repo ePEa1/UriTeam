@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using ePEaCostomFunction;
 
 public class EShieldAtk : EnemyAtkBase
 {
@@ -12,7 +13,7 @@ public class EShieldAtk : EnemyAtkBase
 
     float nowAtkTime = 0.0f;
 
-    protected override void RealAtk()
+    public override void RealAtk()
     {
         nowAtkTime = atkTime; //공격 유지시간 초기화
         isAtking = true; //공격 콜라이더 활성화
@@ -26,18 +27,38 @@ public class EShieldAtk : EnemyAtkBase
         {
             nowAtkTime -= Time.deltaTime; //공격 유지시간 흐르게 하기
             if (nowAtkTime <= 0) //다 끝났으면
+            {
                 isAtking = false; //공격 콜라이더 비활성화
+                nowAtkTime = 0.0f;
+            }
+                
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         GameObject col = other.gameObject;
 
         if (isAtking && col.tag == "Player") //공격콜라이더 활성화 상태에서 플레이어한테 닿으면
         {
-            //player 피격 이벤트 실행
-            Debug.Log("[" + manager.name + "] is hitting");
+            PlayerCharacter pc = col.GetComponent<PlayerCharacter>();
+            Debug.Log(pc.nowParry);
+            if (pc.nowParry)
+            {
+                manager.isTarget = true;
+                manager.nowTargetTime = manager.targetTime;
+                manager.nowGrogiTime = manager.grogiTime;
+                manager.SetSuperArmor(false);
+                manager.OnKnockEvent(CostomFunctions.PointNormalize(manager.transform.position, target.transform.position), 0);
+            }
+            else
+            {
+                //player 피격 이벤트 실행
+                Debug.Log("[" + manager.name + "] is hitting");
+                pc.OnDamEvent(20, Vector3.zero);
+            }
+
+            isAtking = false;
         }
     }
 }

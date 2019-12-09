@@ -41,6 +41,9 @@ public class EnemyController : MonoBehaviour, IDamage
     [SerializeField, TabGroup("Option"), LabelText("공격력")] float EnemyPower; //적 공격력
     [SerializeField, TabGroup("Option"), LabelText("공격 딜레이")] float Enemy_AtkCoolDown; //공격 쿨타임
     [SerializeField, TabGroup("Option"), LabelText("공격 사거리")] float EnemyView_AtkRad; //공격 사정거리
+    [SerializeField, TabGroup("Option"), LabelText("공격 체크 간격")] float Enemy_AtkCheck; //공격 체크 간격
+    [SerializeField, TabGroup("Option"), LabelText("타겟팅 지속 시간")] public float targetTime;
+    [SerializeField, TabGroup("Option"), LabelText("그로기 지속 시간")] public float grogiTime;
 
     [Title("전투 컴포넌트")]
     [SerializeField, TabGroup("Component"), LabelText("공격")] EnemyAtkBase compAtk; //적 공격 구현 컴포넌트
@@ -61,12 +64,20 @@ public class EnemyController : MonoBehaviour, IDamage
     [SerializeField, TabGroup("Component"), LabelText("애니메이션")] Animator animator; //적 애니메이션 컨트롤러
 
     float Enemy_NowAtkCool; //현재 공격 쿨타임
+    float Enemy_NowAtkCheck;
 
     bool IsKnockback = false; //넉백중인가
 
-    bool IsSuperArmor = false; //슈퍼아머(피격, 경직 애니메이션 무시) 상태인가
+    public bool IsSuperArmor = false; //슈퍼아머(피격, 경직 애니메이션 무시) 상태인가
 
     bool notDam = false; //무적 상태인가
+
+    public bool isTarget = false;
+
+    public float nowTargetTime = 0.0f;
+    public float nowGrogiTime = 0.0f;
+
+    public GameObject targetUI;
 
     EStat nowStat = EStat.CREATE; //현재 몬스터 상태
 
@@ -79,6 +90,7 @@ public class EnemyController : MonoBehaviour, IDamage
     void Awake()
     {
         nowStat = startStat;
+        Enemy_NowAtkCheck = Enemy_AtkCheck;
     }
 
     //공격 이벤트
@@ -108,6 +120,7 @@ public class EnemyController : MonoBehaviour, IDamage
     //사망 이벤트
     public void OnDeadEvent()
     {
+        compDam.gameObject.GetComponent<BoxCollider>().isTrigger = true;
         compDead.PlayDeadEvent();
     }
 
@@ -119,16 +132,58 @@ public class EnemyController : MonoBehaviour, IDamage
 
     void Update()
     {
-        switch(nowStat)
+        if (nowStat == EStat.MOVE)
+            GetAnimator().SetBool("Moving", true);
+        else
+            GetAnimator().SetBool("Moving", false);
+
+        if (nowTargetTime>0)
+        {
+            nowTargetTime -= Time.deltaTime;
+            targetUI.SetActive(true);
+        }
+        else
+        {
+            nowTargetTime = 0.0f;
+            isTarget = false;
+            targetUI.SetActive(false);
+        }
+
+        if (nowGrogiTime > 0)
+        {
+            nowGrogiTime -= Time.deltaTime;
+        }
+        else
+        {
+            SetSuperArmor(true);
+        }
+
+        switch (nowStat)
         {
             case EStat.MOVE:
                 //이동 구현되있는거 실행
                 compMove.Moving(EnemyView_RushSpd, EnemyView_RushRad, EnemyView_RunSpd, EnemyView_RunRad);
 
-                //공격 가능하면 공격이벤트 발생
-                if (Enemy_NowAtkCool <= 0 && EnemyView_AtkRad >= 10.0f)
+                if (Enemy_NowAtkCool > 0)
+                    Enemy_NowAtkCool -= Time.deltaTime;
+                else
+                    Enemy_NowAtkCool = 0.0f;
+
+                if (Enemy_NowAtkCheck > 0)
+                    Enemy_NowAtkCheck -= Time.deltaTime;
+                else
+                    Enemy_NowAtkCheck = 0.0f;
+
+                if (Enemy_NowAtkCheck<=0)
                 {
-                    OnAtkEvent();
+                    //공격 가능하면 공격이벤트 발생
+                    if (Enemy_NowAtkCool <= 0 && EnemyView_AtkRad >= 10.0f)
+                    {
+                        Enemy_NowAtkCool = Enemy_AtkCoolDown;
+                        Debug.Log(Enemy_NowAtkCool);
+                        OnAtkEvent();
+                    }
+                    Enemy_NowAtkCheck += Enemy_AtkCheck;
                 }
                 break;
 
@@ -137,9 +192,6 @@ public class EnemyController : MonoBehaviour, IDamage
                 compKnock.KnockUpdate();
                 break;
         }
-
-        //테스트코드
-        AtkTest();
     }
 
     #endregion

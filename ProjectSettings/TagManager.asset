@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - DamTrigger
+  - Enemy
   layers:
   - Default
   - TransparentFX

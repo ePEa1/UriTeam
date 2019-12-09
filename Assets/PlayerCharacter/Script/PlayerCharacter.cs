@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ePEaCostomFunction;
 
 using static Data;
 using static GameManager;
@@ -136,6 +137,11 @@ public class PlayerCharacter : Character, IDamage
     #endregion
     #region Value
     private DataConsumTimesReporter<int> m_BulletCount_ConsumeTimesReporter;        //그냥 총알갯수 줄어드는것 추적용임
+
+    public float coolDash = 0.0f;
+    public float coolParry = 0.0f;
+    public EnemyController target = null;
+    public bool nowParry = false;
     #endregion
 
     #region Event
@@ -232,7 +238,7 @@ public class PlayerCharacter : Character, IDamage
 
         //AttackTrigger 트리거 이벤트 정의
         AttackTrigger.Disable();
-        AttackTrigger.onTargetTriggered += (Transform damTrans, MonoBehaviour damObject, IDamage iDamage, int ind) =>
+        AttackTrigger.onTargetTriggered += (Transform damTrans, MonoBehaviour damObject, IDamage iDamage, int ind, Vector3 nor) =>
         {
             if (iDamage != null && damObject.GetComponent<PlayerCharacter>() == null)
             {
@@ -240,7 +246,7 @@ public class PlayerCharacter : Character, IDamage
                 vec.y = 0;
                 vec.Normalize();
 
-                iDamage?.OnDamEvent(ind, vec);
+                iDamage?.OnDamEvent(ind, nor);
             }
         };
 
@@ -252,7 +258,7 @@ public class PlayerCharacter : Character, IDamage
     protected override void OnUpdate()
     {
         //사망중일경우(?)는 업데이트같은거 없다.
-        if (GetAction(0) == m_DieAction)
+        if (IsDied.Value)
         {
             TimeStopProgress.Value = 0;
             return;
@@ -260,11 +266,25 @@ public class PlayerCharacter : Character, IDamage
 
         base.OnUpdate();
 
+        SetTarget();
+
         PlayerCharacterControl control = CurrentControl as PlayerCharacterControl;
 
         //탄환이 부족할 시 재충전 타이머 재생
         if (BulletCount.Value < data.Bullet_Max)
             BulletChargeTimer.Value -= Time.deltaTime;
+
+        //대시 쿨타임
+        if (coolDash > 0)
+            coolDash -= Time.deltaTime;
+        else
+            coolDash = 0;
+
+        //패링 쿨타임
+        if (coolParry > 0)
+            coolParry -= Time.deltaTime;
+        else
+            coolParry = 0;
 
         //시간정지
         if (TimeStopCoolDown.Value <= 0 && control.TimeStop)
@@ -301,12 +321,14 @@ public class PlayerCharacter : Character, IDamage
     {
         //if (GetAction(0) == ParryAction && 패링진행중인가)
         //    return;
-
-        TimeEnergy.Value -= atkNum;
+            TimeEnergy.Value -= atkNum;
     }
     #endregion
     #region Function
     //Public
+    public bool DashOk() { return coolDash <= 0; }
+    public bool ParryOk() { return coolParry <= 0; }
+    public bool RushOk() { return target != null; }
     /// <summary>
     /// 캐릭터가 보는 방향을 설정합니다.
     /// </summary>
@@ -331,6 +353,38 @@ public class PlayerCharacter : Character, IDamage
                 m_Animator.transform.localEulerAngles = new Vector3(0, target, 0);
         }
     }
+
+    //추격타 타겟 설정
+    void SetTarget()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane characterPlane = new Plane(Vector3.up, BottomWorldPos);
+        Vector3 mouseVec = BottomWorldPos;
+        if (characterPlane.Raycast(ray, out float dist))
+        {
+            mouseVec = ray.GetPoint(dist) - BottomWorldPos;
+        }
+
+        float near = Data.data.maxNear;
+
+        bool inTarget = false;
+
+        GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < enemys.Length; i++)
+        {
+            if (enemys[i].GetComponent<EnemyController>().isTarget)
+            {
+                if (Vector3.Distance(mouseVec, enemys[i].transform.position) < near)
+                {
+                    target = enemys[i].GetComponent<EnemyController>();
+                    inTarget = true;
+                }
+            }
+        }
+
+        if (!inTarget)
+            target = null;
+    }
     #endregion
 }
 
@@ -339,4 +393,5 @@ public class PlayerCharacter : Character, IDamage
 /// </summary>
 public class AvoidEffect : CharacterEffect
 {
+
 }

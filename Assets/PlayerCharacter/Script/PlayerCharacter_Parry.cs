@@ -2,25 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Sirenix.OdinInspector;
 using static Data;
 
 public class PlayerCharacter_Parry : PlayerCharacter_ActionBase
 {
     #region Value
-    private float m_Timer;
-    private bool m_IsSwitched;      //실제 스위치 처리를 했는지
+    [Title("능력치")]
+    [SerializeField, LabelText("패링 판정 시간")] float parryTime;
+    [SerializeField, LabelText("패링 종료 시간")] float endTime;
+
+    [Title("이펙트")]
+    [SerializeField, LabelText("패링 이펙트")] GameObject PEff;
+
+    PlayerCharacter player;
+    float nowTime = 0.0f;
+
     #endregion
 
     #region Event
     protected override void OnStartAction()
     {
+        player = CurrentCharacter as PlayerCharacter;
+
+        nowTime = 0.0f;
+        player.coolParry = Data.data.Cool_Parry; //패링 쿨타임
+        PEff.SetActive(true); //패링 이펙트
+        PEff.GetComponent<ParticleSystem>().Play();
+        player.nowParry = true;
     }
+
     protected override CharacterAction OnUpdateAction()
     {
-        /*if(시간지남)
+        nowTime += Time.deltaTime;
+
+        if (nowTime >= parryTime)
+        {
+            player.nowParry = false;
+            Debug.Log("Parry end");
+        }
+            
+
+        if (nowTime >= endTime)
             return base.OnUpdateAction();
-        else*/
+        else
             return this;
     }
     protected override void OnEndAction()
