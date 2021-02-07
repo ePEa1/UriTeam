@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using static Data;
+using static GameManager;
 
 public class PlayerCharacterDemoUI : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class PlayerCharacterDemoUI : MonoBehaviour
             color.a = Mathf.Lerp(0.0f, 0.15f, m_PlayerCharacter.TimeStopProgress.Value);
             m_TimeStopScale.color = color;
 
-            m_TimeStopFrame.SetActive(m_PlayerCharacter.IsTimeStopped);
+            m_TimeStopFrame.SetActive(gameManager.IsTimeStopped);
         });
 
         //시간에너지
@@ -44,12 +45,12 @@ public class PlayerCharacterDemoUI : MonoBehaviour
             m_TimeEnergyBar.fillAmount = m_PlayerCharacter.TimeEnergy.Value / data.TimeEnergy_Max;
         });
 
-        //현재 무기
-        m_PlayerCharacter.IsWeaponRange.AddValueChangeEvent(() =>
-        {
-            m_WeaponRange.SetActive(m_PlayerCharacter.IsWeaponRange.Value);
-            m_WeaponMelee.SetActive(!m_PlayerCharacter.IsWeaponRange.Value);
-        });
+        //현재 무기 (삭제됨)
+        //m_PlayerCharacter.IsWeaponRange.AddValueChangeEvent(() =>
+        //{
+        //    m_WeaponRange.SetActive(m_PlayerCharacter.IsWeaponRange.Value);
+        //    m_WeaponMelee.SetActive(!m_PlayerCharacter.IsWeaponRange.Value);
+        //});
 
         //현재 총알
         m_PlayerCharacter.BulletCount.AddValueChangeEvent(() =>

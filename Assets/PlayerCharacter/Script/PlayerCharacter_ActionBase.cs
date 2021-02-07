@@ -17,7 +17,8 @@ public abstract class PlayerCharacter_ActionBase : CharacterAction
         //Attack
         if (control.Attack)
         {
-            if (player.IsWeaponRange.Value)
+            /*
+            if (control.Range)
             {
                 if (0 < player.BulletCount.Value)
                     return player.AttackRangeAction;
@@ -25,12 +26,13 @@ public abstract class PlayerCharacter_ActionBase : CharacterAction
                     return player.DefaultAction;
             }
             else
-                return player.AttackMeleeAction;
+            */
+            return player.AttackMeleeAction;
         }
 
         //Switch Weapon
-        if (control.SwitchWeapon)
-            return player.SwitchAction;
+        //if (control.SwitchWeapon)
+        //    return player.SwitchAction;
 
         //Dash, Default
         if (0.1f < control.Move.magnitude)

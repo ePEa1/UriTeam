@@ -1,5 +1,62 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &726075835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 726075837}
+  - component: {fileID: 726075836}
+  - component: {fileID: 1280802702794216903}
+  m_Layer: 0
+  m_Name: AttackTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &726075837
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726075835}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.8699998, z: 0.664}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5991686981542377054}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &726075836
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726075835}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1280802702794216903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726075835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48bd203faec9cc840b6904349470ee36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &363421954639257577
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +295,7 @@ GameObject:
   - component: {fileID: 2239842457389640400}
   m_Layer: 0
   m_Name: PlayerCharacter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -285,6 +342,7 @@ MonoBehaviour:
   SwitchAction: {fileID: 363421955336452577}
   AttackRangeAction: {fileID: 363421954717223535}
   AttackMeleeAction: {fileID: 363421954665975486}
+  AttackTrigger: {fileID: 1280802702794216903}
   m_IsAutoInit: 1
   m_LookVectorChangeSpeed: 720
 --- !u!143 &2820398073729608393
@@ -320,8 +378,8 @@ MonoBehaviour:
   m_CharacterController: {fileID: 2820398073729608393}
   m_SimulateScale: 1
   m_MoveSpeed: 0
-  m_MoveMaxSec: 0.1
-  m_MoveMinSec: 0.1
+  m_MoveMaxSec: 0
+  m_MoveMinSec: 0
 --- !u!114 &2239842457389640400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,10 +605,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 363421955302217420}
     m_Modifications:
-    - target: {fileID: 100000, guid: 17003f43a5cd05949a1d47e2557bccbb, type: 3}
-      propertyPath: m_Name
-      value: Ani_Dummy_FBX
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 17003f43a5cd05949a1d47e2557bccbb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -594,6 +648,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 17003f43a5cd05949a1d47e2557bccbb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 17003f43a5cd05949a1d47e2557bccbb, type: 3}
+      propertyPath: m_Name
+      value: Ani_Dummy_FBX
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 17003f43a5cd05949a1d47e2557bccbb, type: 3}
       propertyPath: m_LocalRotation.y

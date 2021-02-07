@@ -18,6 +18,8 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         [SerializeField, TabGroup("Option"), LabelText("최대 이동속도")] private float m_MoveSpeed;
         [SerializeField, TabGroup("Option"), LabelText("0->최대이속 시간")] private float m_MoveMaxSec;
         [SerializeField, TabGroup("Option"), LabelText("최대이속->0 시간")] private float m_MoveMinSec;
+
+        [SerializeField, TabGroup("Physics"), LabelText("중력가속도")] private float m_Gravity = -9.81f;
         #endregion
         #region Get,Set
         /// <summary>
@@ -48,6 +50,7 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         protected Vector2 m_MoveVelocity;           //목표 이동방향
         protected float m_MoveEndTimer;             //이 시간 이상 지나면 강제로 멈추도록 함
         protected Vector2 m_Velocity;               //현재의 velocity
+        protected float m_UpDown;                   //위/아래방향 velocity
         #endregion
 
         #region Event
@@ -62,6 +65,9 @@ namespace CulterSystem.CommonSystem.CharacterSytem
         //Unity Event
         protected void Update()
         {
+            //중력
+            m_UpDown += m_Gravity * Time.unscaledDeltaTime * m_SimulateScale;
+
             //값 업데이트
             //이번 프레임에 이동했을 경우 가속
             if (m_IsMovedThisFrame)
@@ -81,7 +87,10 @@ namespace CulterSystem.CommonSystem.CharacterSytem
             }
 
             //값 적용
-            m_CharacterController.Move(new Vector3(m_Velocity.x, 0, m_Velocity.y) * Time.deltaTime * SimulateScale);       //이동
+            CollisionFlags flag = m_CharacterController.Move(new Vector3(m_Velocity.x, m_UpDown, m_Velocity.y) * Time.deltaTime * SimulateScale);       //이동
+            if ((flag & CollisionFlags.Below) != 0)
+                m_UpDown = 0;
+
 
             //마무리
             m_IsMovedThisFrame = false;

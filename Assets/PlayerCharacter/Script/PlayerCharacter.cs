@@ -9,7 +9,7 @@ using UnityEngine;
 using static Data;
 using static GameManager;
 
-public class PlayerCharacter : Character
+public class PlayerCharacter : Character, IDamage
 {
     #region Inspector
     [Title("Component")]
@@ -23,6 +23,9 @@ public class PlayerCharacter : Character
     [SerializeField] public PlayerCharacter_Switch SwitchAction;
     [SerializeField] public PlayerCharacter_AttackRange AttackRangeAction;
     [SerializeField] public PlayerCharacter_AttackMelee AttackMeleeAction;
+
+    //얘도 귀찮아서
+    [SerializeField] public Player_AttackTrigger AttackTrigger;
 
     [Title("Option")]
     [SerializeField] private bool m_IsAutoInit = true;                  //자동으로 init함수를 호출할지
@@ -47,8 +50,8 @@ public class PlayerCharacter : Character
     {
         get
         {
-            if (IsTimeStopped)
-                return 1.0f;
+            if (gameManager.IsTimeStopped)
+                return data.TimeStop_PlayerTimeScale;
             else
                 return gameManager.TimeScale;
         }
@@ -129,16 +132,6 @@ public class PlayerCharacter : Character
         get;
         private set;
     }
-    /// <summary>
-    /// 현재 시간이 (거의) 완전히 멈췄는지
-    /// </summary>
-    public bool IsTimeStopped
-    {
-        get
-        {
-            return (0.99f < Mathf.Abs(TimeStopProgress.Value));
-        }
-    }
     #endregion
     #region Value
     private DataConsumTimesReporter<int> m_BulletCount_ConsumeTimesReporter;        //그냥 총알갯수 줄어드는것 추적용임
@@ -171,10 +164,10 @@ public class PlayerCharacter : Character
 
         //IsUsingRange 초기값 및 값 변경에 따른 Animator 변수 변경 처리
         IsWeaponRange = new DataValue<bool>(false);
-        IsWeaponRange.AddValueChangeEvent(() =>
-        {
-            m_Animator.SetBool("UsingRange", IsWeaponRange.Value);
-        }, true);
+        //IsWeaponRange.AddValueChangeEvent(() =>
+        //{
+        //    m_Animator.SetBool("UsingRange", IsWeaponRange.Value);
+        //}, true);
 
         //TimeEnergy 초기값 및 최대값 정의, 0이 될 경우 사망처리
         TimeEnergy = new DataValue<float>(data.TimeEnergy_Max);
@@ -236,6 +229,20 @@ public class PlayerCharacter : Character
             }
         });
 
+        //AttackTrigger 트리거 이벤트 정의
+        AttackTrigger.Disable();
+        AttackTrigger.onTargetTriggered += (Transform damTrans, MonoBehaviour damObject, IDamage iDamage, float damage) =>
+        {
+            if (iDamage != null && damObject.GetComponent<PlayerCharacter>() == null)
+            {
+                Vector3 vec = damTrans.position - transform.position;
+                vec.y = 0;
+                vec.Normalize();
+
+                iDamage?.OnDamEvent((int)damage, vec);
+            }
+        };
+
         //기타 값들 설정
         IsUsingTimeStop = new DataValue<bool>(false);
         TimeStopCoolDown = new DataValue<float>(0);
@@ -286,6 +293,12 @@ public class PlayerCharacter : Character
             TimeStopProgress.Value -= Time.unscaledDeltaTime / data.TimeStop_MsBetweenEnd;
             TimeStopCoolDown.Value -= Time.unscaledDeltaTime;
         }
+    }
+
+    //IDamage Event
+    public void OnDamEvent(int atkNum, Vector3 nor)
+    {
+        TimeEnergy.Value -= atkNum;
     }
     #endregion
     #region Function

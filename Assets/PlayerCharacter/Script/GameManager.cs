@@ -25,6 +25,16 @@ public class GameManager : MonoBehaviour
             return 1.0f - m_Player.TimeStopProgress.Value;
         }
     }
+    /// <summary>
+    /// 현재 시간이 (거의) 완전히 멈췄는지
+    /// </summary>
+    public bool IsTimeStopped
+    {
+        get
+        {
+            return (Mathf.Abs(TimeScale) < 0.01f);
+        }
+    }
     #endregion
 
     #region Event
